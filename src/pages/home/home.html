@@ -1,14 +1,38 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      Ionic Blank
+      MinneTransit
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+<!-- with name set -->
+  <ion-item>
+    <ion-label floating>Stop Number</ion-label>
+    <ion-input type="number" [(ngModel)]="curInput" (keyup.enter)="receiveStopNum()" ></ion-input>
+  <button ion-button icon-only outline item-end icon-start (click)="receiveStopNum()">
+    <ion-icon name="ios-search"></ion-icon>
+  </button>
+</ion-item>
+
+<ion-list>
+  <ion-item *ngFor="let stop of stops">
+    <ion-card>
+      <ion-item>
+        <ion-card-header>
+          Stop Number: {{stop}}
+        </ion-card-header>
+        <button ion-button color="danger" outline icon-only item-end icon-start (click)="closeCard(stop)">
+          <ion-icon name="md-remove-circle"></ion-icon>
+        </button>
+      </ion-item>
+      <ion-card-content>
+        Some info...
+      </ion-card-content>
+    </ion-card>
+  </ion-item>
+</ion-list>
+
+
 </ion-content>
