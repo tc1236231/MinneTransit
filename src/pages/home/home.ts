@@ -34,13 +34,7 @@ export class HomePage {
     let stopNumber = parseInt(this.stopQuery.get("number").value);
     this.stopsNotification.set(stopNumber, false);
     this.stopQuery.reset();
-  }
 
-
-
-  getStopNotiUpdate() {
-    var changedStop = this.navParam.get('stop');
-    let stopNumber = parseInt(this.stopQuery.get("number").value);
     if(!this.stops.has(stopNumber))
       this.stops.set(stopNumber, []);
     this.metrotransitapi.getDepartures(stopNumber).subscribe(
@@ -61,13 +55,19 @@ export class HomePage {
   );
   }
 
-  // create a list of cards, loop over the indices
+  getStopNotiUpdate() {
+    var changedStop = this.navParam.get('stop');
+    let stopNumber = parseInt(this.stopQuery.get("number").value);
+  }
+
   closeCard(stopNum) {
     this.stops.delete(stopNum);
+    this.stopsNotification.delete(stopNum);
   }
 
   setNotification(stop) {
     this.navCtrl.push(NotificationPage, {
+      stopsNoti: this.stopsNotification,
       selectedStop: stop
     });
   }

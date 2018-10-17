@@ -6,22 +6,19 @@ import { NavController, NavParams } from 'ionic-angular';
   templateUrl: 'notification.html'
 })
 export class NotificationPage {
+  notifications: any;
   stop: any;
   stopNumber: number;
   timeMode: string;
   timeInterval: string;
 
   constructor(public navCtrl: NavController, private navParams: NavParams) {
-    this.stop = navParams.get("selectedStop");
-    this.stopNumber = this.stop.stopNum;
-    console.log(this.stop);
-    console.log(this.stopNumber);
     this.timeMode = "Before";
     this.timeInterval = "2";
   }
 
   setNotification() {
-    this.stop.notiOn = true;
+    this.navParams.get("stopsNoti").set(this.navParams.get("selectedStop"), true);
     this.navCtrl.getPrevious().data.notiSettings = {mode: this.timeMode, interval: parseInt(this.timeInterval)};
     this.navCtrl.pop();
   }
