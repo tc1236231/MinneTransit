@@ -66,10 +66,10 @@ export class HomePage {
   }
 
   setNotification(stop) {
+    console.log(this.stopsNotification);
     this.navCtrl.push(NotificationPage, {
       stopsNoti: this.stopsNotification,
       selectedStop: stop
     });
   }
-
 }

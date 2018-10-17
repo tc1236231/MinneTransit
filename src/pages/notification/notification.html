@@ -33,8 +33,11 @@
       </ion-item>
       <div text-right>
       <button ion-button color="secondary" item-end icon-start (click)="setNotification()">
-          Turn On
+          {{onText}}
         </button>
+        <button *ngIf="notiOn" ion-button color="danger" item-end icon-start (click)="turnOffNotification()">
+            Turn Off
+          </button>
       </div>
     </ion-list>
   </ion-content>
