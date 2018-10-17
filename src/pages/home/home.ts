@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
 import { NotificationPage } from '../notification/notification';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 @Component({
@@ -11,7 +11,7 @@ export class HomePage {
   stopNumber;
   stops = [];
 
-  constructor(public navCtrl: NavController, private formBuilder: FormBuilder) {
+  constructor(public navCtrl: NavController, private navParam: NavParams, private formBuilder: FormBuilder) {
     this.stopQuery = this.formBuilder.group({
       number: ['', Validators.required]
     });
@@ -19,19 +19,25 @@ export class HomePage {
 
   receiveStopNum() {
     this.stopNumber = parseInt(this.stopQuery.get("number").value);
-    console.log(typeof this.stopNumber === "number")
-    this.stops.push(this.stopNumber);
-    console.log(this.stops)
+    this.stops.push({stopNum: this.stopNumber, notiOn: false});
+    this.stopQuery.reset();
   }
 
   // create a list of cards, loop over the indices
   closeCard(stop) {
     var index = this.stops.indexOf(stop, 0);
     this.stops.splice(index, 1);
+    console.log(this.stops);
   }
 
-  setNotification() {
-    this.navCtrl.push(NotificationPage);
+  setNotification(stop) {
+    this.navCtrl.push(NotificationPage, {
+      selectedStop: stop
+    });
+  }
+
+  getStopNotiUpdate() {
+    var changedStop = this.navParam.get('stop');
   }
 
 
