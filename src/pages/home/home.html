@@ -28,21 +28,25 @@
 </form>
 
 <ion-list>
-  <ion-item *ngFor="let stop of stops">
+  <ion-item *ngFor="let stopNum of getKeys(stops)">
     <ion-card>
       <ion-item>
         <ion-card-header>
-          Stop Number: {{stop}}
+          Stop Number: {{stopNum}}
         </ion-card-header>
         <button ion-button color="yellow" icon-only outline item-end icon-start (click)="setNotification()">
           <ion-icon name="md-notifications"></ion-icon>
         </button>
-        <button ion-button color="danger" outline icon-only item-end icon-start (click)="closeCard(stop)">
+        <button ion-button color="danger" outline icon-only item-end icon-start (click)="closeCard(stopNum)">
           <ion-icon name="md-remove-circle"></ion-icon>
         </button>
       </ion-item>
       <ion-card-content>
-        Some info...
+        <ul>
+          <li *ngFor="let departure of getValueArray(stops,stopNum)">
+            {{departure.Actual}} | {{ departure.Description }} | {{departure.DepartureText}} 
+          </li>
+        </ul>
       </ion-card-content>
     </ion-card>
   </ion-item>
