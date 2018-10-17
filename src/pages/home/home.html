@@ -32,19 +32,19 @@
     <ion-card>
       <ion-item>
         <ion-card-header>
-          Stop Number: {{stopNum}}
+          Stop #{{stopNum}}
         </ion-card-header>
-        <button ion-button clear color="yellow" icon-only outline item-end icon-start (click)="setNotification(stopNum)">
-          <ion-icon [name]="stopsNotification.get(stopNum) ? 'ios-notifications' : 'ios-notifications-outline'"></ion-icon>
+        <button ion-button clear icon-only item-end icon-start (click)="setNotification(stop)">
+          <ion-icon [name]="stop.notiOn ? 'notifications' : 'notifications-off'"></ion-icon>
         </button>
-        <button ion-button clear color="danger" outline icon-only item-end icon-start (click)="closeCard(stopNum)">
-          <ion-icon name="ios-remove-circle"></ion-icon>
+        <button ion-button clear color="danger" icon-only item-end icon-start (click)="closeCard(stopNum)">
+          <ion-icon name="close"></ion-icon>
         </button>
       </ion-item>
       <ion-card-content>
         <ul>
           <li *ngFor="let departure of getValueArray(stops,stopNum)">
-            {{departure.Actual}} | {{ departure.Description }} | {{departure.DepartureText}} 
+            {{departure.Route}}{{departure.Terminal}} {{ departure.Description }} | {{departure.DepartureText}} 
           </li>
         </ul>
       </ion-card-content>
