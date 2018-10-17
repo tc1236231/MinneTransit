@@ -22,7 +22,7 @@ export class NotificationPage {
     this.timeMode = "Before";
     this.timeInterval = "2";
 
-    this.onText = this.stop ? "Save" : "Turn On";
+    this.onText = this.notiOn ? "Save" : "Turn On";
   }
 
   setNotification() {
