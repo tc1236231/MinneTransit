@@ -4,6 +4,7 @@ import { NotificationPage } from '../notification/notification';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MetroTransitAPI } from '../../providers/metro-transit-api';
 import { NexTripDeparture } from '../../models/next-trip-departure';
+import { Observable } from 'rxjs/Rx';
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -12,6 +13,7 @@ export class HomePage {
   private stopQuery: FormGroup;
   private stops = new Map<number, NexTripDeparture[]>();
   private stopsNotification = new Map<number, boolean>();
+  private subscriptionTimer;
 
   constructor(public navCtrl: NavController, private navParam: NavParams, private formBuilder: FormBuilder, private metrotransitapi : MetroTransitAPI) {
     this.stopQuery = this.formBuilder.group({
@@ -30,13 +32,15 @@ export class HomePage {
     return Array.from(map.get(key));
   }
 
-  receiveStopNum() {
-    let stopNumber = parseInt(this.stopQuery.get("number").value);
-    this.stopsNotification.set(stopNumber, false);
-    this.stopQuery.reset();
+  refreshAllStops()
+  {
+    Array.from(this.stops.keys()).forEach(key => {
+      this.queryStopDepartures(key);
+    });
+  }
 
-    if(!this.stops.has(stopNumber))
-      this.stops.set(stopNumber, []);
+  queryStopDepartures(stopNumber)
+  {
     this.metrotransitapi.getDepartures(stopNumber).subscribe(
       values =>
       {
@@ -52,7 +56,18 @@ export class HomePage {
       {
           console.log(error);
       }
-  );
+    );
+  }
+
+  receiveStopNum() {
+    let stopNumber = parseInt(this.stopQuery.get("number").value);
+    this.stopsNotification.set(stopNumber, false);
+    this.stopQuery.reset();
+
+    if(!this.stops.has(stopNumber))
+      this.stops.set(stopNumber, []);
+
+    this.queryStopDepartures(stopNumber);
   }
 
   getStopNotiUpdate() {
@@ -70,6 +85,12 @@ export class HomePage {
     this.navCtrl.push(NotificationPage, {
       stopsNoti: this.stopsNotification,
       selectedStop: stop
+    });
+  }
+
+  ionViewDidLoad () {
+    this.subscriptionTimer = Observable.interval(1000 * 30).subscribe(x => {
+      this.refreshAllStops();
     });
   }
 }
