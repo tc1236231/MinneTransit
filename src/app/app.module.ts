@@ -8,6 +8,7 @@ import { LocalNotifications } from '@ionic-native/local-notifications';
 import { HomePage } from '../pages/home/home';
 import { NotificationPage } from '../pages/notification/notification';
 import { MetroTransitAPI } from '../providers/metro-transit-api'
+import { NotificationManager } from '../providers/notification-manager';
 import { HttpModule } from '@angular/http';
 
 @NgModule({
@@ -28,6 +29,7 @@ import { HttpModule } from '@angular/http';
     NotificationPage
   ],
   providers: [
+    NotificationManager,
     LocalNotifications,
     StatusBar,
     SplashScreen,

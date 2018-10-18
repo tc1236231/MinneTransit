@@ -6,7 +6,6 @@ import { NavController, NavParams } from 'ionic-angular';
   templateUrl: 'notification.html'
 })
 export class NotificationPage {
-  notifications: any;
   stop: any;
   notiOn: boolean;
   timeMode: string;

@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MetroTransitAPI } from '../../providers/metro-transit-api';
 import { NexTripDeparture } from '../../models/next-trip-departure';
 import { Observable } from 'rxjs/Rx';
+import { NotificationManager } from '../../providers/notification-manager';
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -13,9 +14,9 @@ export class HomePage {
   private stopQuery: FormGroup;
   private stops = new Map<number, NexTripDeparture[]>();
   private stopsNotification = new Map<number, boolean>();
-  private subscriptionTimer;
+  private subscriptionTimer; //temp to put it here for demo purpose
 
-  constructor(public navCtrl: NavController, private navParam: NavParams, private formBuilder: FormBuilder, private metrotransitapi : MetroTransitAPI) {
+  constructor(public navCtrl: NavController, private navParam: NavParams, private formBuilder: FormBuilder, private metrotransitapi : MetroTransitAPI, private notimanager : NotificationManager) {
     this.stopQuery = this.formBuilder.group({
       number: ['', Validators.required]
     });
@@ -46,6 +47,8 @@ export class HomePage {
       {
           values.forEach(dep => {
               dep.DepartureTime = this.metrotransitapi.parseJsonDate(dep.DepartureTime.toString());
+              if(this.stopsNotification.has(stopNumber) && this.stopsNotification.get(stopNumber))
+                this.notimanager.checkForNotification(stopNumber, dep.DepartureTime);
           });
           if(this.stops.has(stopNumber))
           {
@@ -70,14 +73,17 @@ export class HomePage {
     this.queryStopDepartures(stopNumber);
   }
 
+  /* Dummy testing method
   getStopNotiUpdate() {
     var changedStop = this.navParam.get('stop');
     let stopNumber = parseInt(this.stopQuery.get("number").value);
   }
+  */
 
   closeCard(stopNum) {
     this.stops.delete(stopNum);
     this.stopsNotification.delete(stopNum);
+    this.notimanager.resetNotified(stopNum);
   }
 
   setNotification(stop) {
