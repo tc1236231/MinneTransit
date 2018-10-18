@@ -42,8 +42,10 @@
         </button>
       </ion-item>
       <ion-card-content>
-        <ul>
+        <ul style="padding-left:5vw;">
           <li *ngFor="let departure of getValueArray(stops,stopNum)">
+            <ion-icon *ngIf="departure.Actual" name="bus"></ion-icon>
+            <ion-icon *ngIf="!departure.Actual" name="calendar"></ion-icon>
             {{departure.Route}}{{departure.Terminal}} {{ departure.Description }} | {{departure.DepartureText}} 
           </li>
         </ul>

@@ -22,7 +22,7 @@ export class MetroTransitAPI
     getDepartures(stopID: number): Observable<NexTripDeparture[]>
     {
         //17312
-        let departuresObs = this.http.get(`http://svc.metrotransit.org/NexTrip/${stopID}?format=json`).map(res => <NexTripDeparture[]>res.json());
+        let departuresObs = this.http.get(`${this.MetroTransitAPI_URL}${stopID}?format=json`).map(res => <NexTripDeparture[]>res.json());
         return departuresObs;
     }
 

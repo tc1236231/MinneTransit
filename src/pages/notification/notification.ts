@@ -9,7 +9,6 @@ export class NotificationPage {
   notifications: any;
   stop: any;
   notiOn: boolean;
-  stopNumber: number;
   timeMode: string;
   timeInterval: string;
   onText: string;
