@@ -48,7 +48,7 @@ export class HomePage {
           values.forEach(dep => {
               dep.DepartureTime = this.metrotransitapi.parseJsonDate(dep.DepartureTime.toString());
               if(this.stopsNotification.has(stopNumber) && this.stopsNotification.get(stopNumber))
-                this.notimanager.checkForNotification(stopNumber, dep.DepartureTime);
+                this.notimanager.checkForNotification(stopNumber, dep);
           });
           if(this.stops.has(stopNumber))
           {

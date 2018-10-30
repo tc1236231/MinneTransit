@@ -6,53 +6,41 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-<!-- with name set -->
+<ion-content>
 
-  <!-- <ion-item>
-    <ion-label floating>Stop Number</ion-label>
-    <ion-input type="number" [(ngModel)]="curInput" (keyup.enter)="receiveStopNum()" ></ion-input>
-  <button ion-button icon-only outline item-end icon-start (click)="receiveStopNum()">
-    <ion-icon name="ios-search"></ion-icon>
-  </button>
-</ion-item> -->
+  <form [formGroup]="stopQuery" (ngSubmit)="receiveStopNum()">
+    <ion-item>
+      <ion-label floating>Stop Number</ion-label>
+      <ion-input type="number" formControlName="number" ></ion-input>
+      <button ion-button clear icon-only item-end icon-start [disabled]="!stopQuery.valid">
+        <ion-icon name="checkmark"></ion-icon>
+      </button>
+    </ion-item>
+  </form>
 
-<form [formGroup]="stopQuery" (ngSubmit)="receiveStopNum()">
-  <ion-item>
-    <ion-label floating>Stop Number</ion-label>
-    <ion-input type="number" formControlName="number" ></ion-input>
-  <button ion-button icon-only outline item-end icon-start [disabled]="!stopQuery.valid">
-    <ion-icon name="ios-search"></ion-icon>
-  </button>
-</ion-item>
-</form>
-
-<ion-list>
-  <ion-item *ngFor="let stopNum of getKeys(stops)">
-    <ion-card>
-      <ion-item>
-        <ion-card-header>
-          Stop #{{stopNum}}
-        </ion-card-header>
-        <button ion-button clear icon-only item-end icon-start (click)="setNotification(stopNum)">
-          <ion-icon [name]="stopsNotification.get(stopNum) ? 'ios-notifications' : 'ios-notifications-outline'"></ion-icon>
-        </button>
-        <button ion-button clear color="danger" icon-only item-end icon-start (click)="closeCard(stopNum)">
-          <ion-icon name="ios-close-circle"></ion-icon>
-        </button>
-      </ion-item>
-      <ion-card-content>
-        <ul style="padding-left:5vw;">
-          <li *ngFor="let departure of getValueArray(stops,stopNum)">
-            <ion-icon *ngIf="departure.Actual" name="bus"></ion-icon>
-            <ion-icon *ngIf="!departure.Actual" name="calendar"></ion-icon>
-            {{departure.Route}}{{departure.Terminal}} {{ departure.Description }} | {{departure.DepartureText}} 
-          </li>
-        </ul>
-      </ion-card-content>
-    </ion-card>
-  </ion-item>
-</ion-list>
-
-
+      <ion-card *ngFor="let stopNum of getKeys(stops)">
+        <ion-item>
+          <ion-card-header>Stop #{{stopNum}}</ion-card-header>
+          <button ion-button clear icon-only item-end icon-start (click)="setNotification(stopNum)">
+            <ion-icon [name]="stopsNotification.get(stopNum) ? 'notifications' : 'notifications-off'"></ion-icon>
+          </button>
+          <button ion-button clear color="danger" icon-only item-end icon-start (click)="closeCard(stopNum)">
+            <ion-icon name="close"></ion-icon>
+          </button>
+        </ion-item>
+        <ion-card-content>
+          <table style="width:100%">
+            <tr>
+              <th>Route</th>
+              <th></th> 
+              <th>Departs</th>
+            </tr>
+            <tr *ngFor="let departure of getValueArray(stops,stopNum)">
+              <td>{{departure.Route}}{{departure.Terminal}}</td>
+              <td>{{ departure.Description }}</td> 
+              <td>{{departure.DepartureText}} </td>
+            </tr>
+          </table>
+        </ion-card-content>
+      </ion-card>
 </ion-content>
