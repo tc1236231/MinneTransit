@@ -21,8 +21,7 @@ export class NotificationPage {
   }
 
   setNotification() {
-    this.stop.notiSet = true;
-    this.stop.notiMinutes = parseInt(this.timeInterval);
+    this.stop.enableNoti(parseInt(this.timeInterval));
     this.navCtrl.pop();
   }
 
