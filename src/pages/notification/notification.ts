@@ -1,36 +1,33 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
+import { StopForm } from '../../models/stop-form';
 
 @Component({
   selector: 'page-notification',
   templateUrl: 'notification.html'
 })
 export class NotificationPage {
-  stop: any;
+  stop: StopForm;
   notiOn: boolean;
   timeMode: string;
   timeInterval: string;
   onText: string;
 
   constructor(public navCtrl: NavController, private navParams: NavParams) {
-    this.stop = this.navParams.get("selectedStop");
-    console.log(this.stop);
-    this.notiOn = this.navParams.get("stopsNoti").get(this.stop);
-    console.log(this.notiOn);
-    this.timeMode = "Before";
-    this.timeInterval = "2";
-
+    this.stop = this.navParams.get("stop");
+    this.notiOn = this.stop.notiSet;
+    this.timeInterval = this.notiOn ? this.stop.notiMinutes.toString() : "2";
     this.onText = this.notiOn ? "Save" : "Turn On";
   }
 
   setNotification() {
-    this.navParams.get("stopsNoti").set(this.stop, true);
-    this.navCtrl.getPrevious().data.notiSettings = {mode: this.timeMode, interval: parseInt(this.timeInterval)};
+    this.stop.notiSet = true;
+    this.stop.notiMinutes = parseInt(this.timeInterval);
     this.navCtrl.pop();
   }
 
   turnOffNotification() {
-    this.navParams.get("stopsNoti").set(this.stop, false);
+    this.stop.notiSet = false;
     this.navCtrl.pop();
   }
 }

@@ -1,39 +1,26 @@
 
 import { Component } from '@angular/core';
 import { LocalNotifications } from "@ionic-native/local-notifications";
-import { NexTripDeparture } from '../models/next-trip-departure';
+import { StopForm } from '../models/stop-form';
 @Component({
     providers: [LocalNotifications]
 })
 export class NotificationManager
 {
-    notifiedStops = new Map<number, Date>();
     constructor(private localnotification : LocalNotifications) {
         if(!localnotification.hasPermission())
             localnotification.requestPermission();
     }
 
-    isNotified(stopNumber: number) : boolean
+    checkForNotification(stop : StopForm)
     {
-        return this.notifiedStops.has(stopNumber);
-    }
-
-    resetNotified(stopNumber: number)
-    {
-        this.notifiedStops.delete(stopNumber);
-    }
-
-    checkForNotification(stopNumber : number, dep : NexTripDeparture)
-    {
-        let currentTime = new Date();
-        let durationInMin = Math.ceil((dep.DepartureTime.valueOf() - currentTime.valueOf()) / 60000);
-        if(durationInMin >= 0 && durationInMin <= 5 && !this.isNotified(stopNumber))
-        {
-            this.localnotification.schedule([{                
-                title: `Bus approaching stop #${stopNumber}`,
-                text: `${dep.Route}${dep.Terminal} ${dep.Description} is departing in ${durationInMin} minute(s)`
+        if(new Date() >= stop.nextNotiTime) {
+            let minsUntilDep : number = Math.ceil((stop.nextNotiDep.DepartureTime.valueOf() - new Date().valueOf()) / 60000);
+            this.localnotification.schedule([{
+                title: `Trip approaching stop #${stop.sNum}`,
+                text: `${stop.nextNotiDep.Route}${stop.nextNotiDep.Terminal} ${stop.nextNotiDep.Description} is departing in ${minsUntilDep} minute(s)`
              }]);
-             this.notifiedStops.set(stopNumber, currentTime);
+             stop.notiSet = false;
         }
     }
 }

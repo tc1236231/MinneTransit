@@ -4,6 +4,7 @@ import { NotificationPage } from '../notification/notification';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MetroTransitAPI } from '../../providers/metro-transit-api';
 import { NexTripDeparture } from '../../models/next-trip-departure';
+import { StopForm } from '../../models/stop-form';
 import { Observable } from 'rxjs/Rx';
 import { NotificationManager } from '../../providers/notification-manager';
 @Component({
@@ -12,8 +13,7 @@ import { NotificationManager } from '../../providers/notification-manager';
 })
 export class HomePage {
   private stopQuery: FormGroup;
-  private stops = new Map<number, NexTripDeparture[]>();
-  private stopsNotification = new Map<number, boolean>();
+  private stops : StopForm[] = [];
   private subscriptionTimer; //temp to put it here for demo purpose
 
   constructor(public navCtrl: NavController, private navParam: NavParams, private formBuilder: FormBuilder, private metrotransitapi : MetroTransitAPI, private notimanager : NotificationManager) {
@@ -22,55 +22,26 @@ export class HomePage {
     });
   }
 
-  getKeys(map){
-    return Array.from(map.keys());
-  }
-
-  getValueArray(map, key){
-    if(!map.has(key))
-      return [];
-
-    return Array.from(map.get(key));
-  }
-
   refreshAllStops()
   {
-    Array.from(this.stops.keys()).forEach(key => {
-      this.queryStopDepartures(key);
-    });
+    for(let stop of this.stops) {
+      this.updateStop(stop);
+    }
   }
 
-  queryStopDepartures(stopNumber)
-  {
-    this.metrotransitapi.getDepartures(stopNumber).subscribe(
-      values =>
-      {
-          values.forEach(dep => {
-              dep.DepartureTime = this.metrotransitapi.parseJsonDate(dep.DepartureTime.toString());
-              if(this.stopsNotification.has(stopNumber) && this.stopsNotification.get(stopNumber))
-                this.notimanager.checkForNotification(stopNumber, dep);
-          });
-          if(this.stops.has(stopNumber))
-          {
-            this.stops.set(stopNumber, values);
-          }
-      },
-      error =>
-      {
-          console.log(error);
-      }
-    );
+  updateStop(stop : StopForm) {
+    stop.update(this.metrotransitapi);
+    if(stop.notiSet) {
+      this.notimanager.checkForNotification(stop);
+    }
   }
 
   receiveStopNum() {
     let stopNumber = parseInt(this.stopQuery.get("number").value);
-    this.stopsNotification.set(stopNumber, false);
     this.stopQuery.reset();
-
-    if(!this.stops.has(stopNumber))
-      this.stops.set(stopNumber, []);
-
-    this.queryStopDepartures(stopNumber);
+    let newStop : StopForm = new StopForm(stopNumber);
+    newStop.update(this.metrotransitapi);
+    this.stops.push(newStop);
   }
 
   /* Dummy testing method
@@ -80,17 +51,13 @@ export class HomePage {
   }
   */
 
-  closeCard(stopNum) {
-    this.stops.delete(stopNum);
-    this.stopsNotification.delete(stopNum);
-    this.notimanager.resetNotified(stopNum);
+  closeCard(stop : StopForm) {
+    this.stops.splice(this.stops.indexOf(stop),1);
   }
 
-  setNotification(stop) {
-    console.log(this.stopsNotification);
+  setNotification(stop : StopForm) {
     this.navCtrl.push(NotificationPage, {
-      stopsNoti: this.stopsNotification,
-      selectedStop: stop
+      stop: stop,
     });
   }
 
