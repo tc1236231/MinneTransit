@@ -61,14 +61,8 @@ export class StopForm {
 
     filter(value: NexTripDeparture, index: number, array: NexTripDeparture[]) : boolean {
         if(this.routeDirs) {
-            for(let routeDir of this.routeDirs) {
-                if(routeDir.route == value.Route && routeDir.direction == value.RouteDirection) {
-                    return true;
-                }
-            }
+            for(let routeDir of this.routeDirs) if(routeDir.route == value.Route && routeDir.direction == value.RouteDirection) return true;
             return false;
-        } else {
-            return true;
-        }
+        } else return true;
     }
 }
