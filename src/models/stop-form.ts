@@ -12,6 +12,7 @@ export class StopForm {
     notiSet : boolean // Whether notifications are enabled for this StopForm
     notiMinutes : number // Number of minutes ahead when the notification should fire
     updateTime : Date // Time of last update
+    updateTimeString : string
     departures : NexTripDeparture[] // Array of filtered departures returned at last update
     nextNotiTime : Date // When the next notification should fire, based on last update
     nextNotiDep : NexTripDeparture // The departure for which the next notification should fire
@@ -39,6 +40,7 @@ export class StopForm {
                 });
                 this.departures = values;
                 this.updateTime = new Date();
+                this.updateTimeString = this.updateTime.toLocaleTimeString();
 
                 if(this.notiSet) {
                     this.updateNextNoti();
