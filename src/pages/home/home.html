@@ -7,44 +7,43 @@
 </ion-header>
 
 <ion-content>
-
   <form [formGroup]="stopQuery" (ngSubmit)="receiveStopNum()">
     <ion-item>
       <ion-label floating>Stop Number</ion-label>
-      <ion-input type="number" formControlName="number" ></ion-input>
+      <ion-input type="number" formControlName="number"></ion-input>
       <button ion-button clear icon-only item-end icon-start [disabled]="!stopQuery.valid">
         <ion-icon name="checkmark"></ion-icon>
       </button>
     </ion-item>
   </form>
 
-      <ion-card *ngFor="let stop of stops">
-        <ion-item>
-          <ion-card-header>Stop #{{stop.sNum}}</ion-card-header>
-          <button ion-button clear icon-only item-end icon-start (click)="updateStop(stop)">
-            <ion-icon name="refresh"></ion-icon>
-          </button>
-          <button ion-button clear icon-only item-end icon-start (click)="setNotification(stop)">
-            <ion-icon [name]="stop.notiSet ? 'notifications' : 'notifications-off'"></ion-icon>
-          </button>
-          <button ion-button clear color="danger" icon-only item-end icon-start (click)="closeCard(stop)">
-            <ion-icon name="close"></ion-icon>
-          </button>
-        </ion-item>
-        <ion-card-content>
-          Updated {{stop.updateTimeString}}
-          <table style="width:100%">
-            <tr>
-              <th>Route</th>
-              <th></th> 
-              <th>Departs</th>
-            </tr>
-            <tr *ngFor="let departure of stop.departures">
-              <td>{{departure.Route}}{{departure.Terminal}}</td>
-              <td>{{departure.Description}}</td> 
-              <td>{{departure.DepartureText}} </td>
-            </tr>
-          </table>
-        </ion-card-content>
-      </ion-card>
+  <ion-card *ngFor="let stop of stops">
+    <ion-item>
+      <ion-card-header>Stop #{{stop.sNum}}</ion-card-header>
+      <button ion-button clear icon-only item-end icon-start (click)="updateStop(stop)">
+        <ion-icon name="refresh"></ion-icon>
+      </button>
+      <button ion-button clear icon-only item-end icon-start (click)="setNotification(stop)">
+        <ion-icon [name]="stop.notiSet ? 'notifications' : 'notifications-off'"></ion-icon>
+      </button>
+      <button ion-button clear color="danger" icon-only item-end icon-start (click)="closeCard(stop)">
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-item>
+    <ion-card-content>
+      Updated {{stop.updateTimeString}}
+      <table style="width:100%">
+        <tr>
+          <th>Route</th>
+          <th></th>
+          <th>Departs</th>
+        </tr>
+        <tr *ngFor="let departure of stop.departures">
+          <td>{{departure.Route}}{{departure.Terminal}}</td>
+          <td>{{departure.Description}}</td>
+          <td>{{departure.DepartureText}} </td>
+        </tr>
+      </table>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

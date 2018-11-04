@@ -1,37 +1,35 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
-import { NotificationPage } from '../notification/notification';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MetroTransitAPI } from '../../providers/metro-transit-api';
-import { NexTripDeparture } from '../../models/next-trip-departure';
-import { StopForm } from '../../models/stop-form';
+import { NavController, NavParams } from 'ionic-angular';
 import { Observable } from 'rxjs/Rx';
+import { StopForm } from '../../models/stop-form';
+import { MetroTransitAPI } from '../../providers/metro-transit-api';
 import { NotificationManager } from '../../providers/notification-manager';
+import { NotificationPage } from '../notification/notification';
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
 })
 export class HomePage {
   private stopQuery: FormGroup;
-  private stops : StopForm[] = [];
+  private stops: StopForm[] = [];
   private subscriptionTimer; //temp to put it here for demo purpose
 
-  constructor(public navCtrl: NavController, private navParam: NavParams, private formBuilder: FormBuilder, private metrotransitapi : MetroTransitAPI, private notimanager : NotificationManager) {
+  constructor(public navCtrl: NavController, private navParam: NavParams, private formBuilder: FormBuilder, private metrotransitapi: MetroTransitAPI, private notimanager: NotificationManager) {
     this.stopQuery = this.formBuilder.group({
       number: ['', Validators.required]
     });
   }
 
-  refreshAllStops()
-  {
-    for(let stop of this.stops) {
+  refreshAllStops() {
+    for (let stop of this.stops) {
       this.updateStop(stop);
     }
   }
 
-  updateStop(stop : StopForm) {
+  updateStop(stop: StopForm) {
     stop.update(this.metrotransitapi);
-    if(stop.notiSet) {
+    if (stop.notiSet) {
       this.notimanager.checkForNotification(stop);
     }
   }
@@ -39,7 +37,7 @@ export class HomePage {
   receiveStopNum() {
     let stopNumber = parseInt(this.stopQuery.get("number").value);
     this.stopQuery.reset();
-    let newStop : StopForm = new StopForm(stopNumber);
+    let newStop: StopForm = new StopForm(stopNumber);
     newStop.update(this.metrotransitapi);
     this.stops.push(newStop);
   }
@@ -51,17 +49,17 @@ export class HomePage {
   }
   */
 
-  closeCard(stop : StopForm) {
-    this.stops.splice(this.stops.indexOf(stop),1);
+  closeCard(stop: StopForm) {
+    this.stops.splice(this.stops.indexOf(stop), 1);
   }
 
-  setNotification(stop : StopForm) {
+  setNotification(stop: StopForm) {
     this.navCtrl.push(NotificationPage, {
       stop: stop,
     });
   }
 
-  ionViewDidLoad () {
+  ionViewDidLoad() {
     this.subscriptionTimer = Observable.interval(1000 * 30).subscribe(x => {
       this.refreshAllStops();
     });
