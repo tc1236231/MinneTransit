@@ -1,1 +1,16 @@
-<ion-nav [root]="rootPage"></ion-nav>
+<ion-menu [content]="mycontent">
+    <ion-content>
+      <ion-list>
+        <ion-label >All Notifications</ion-label>
+        <button ion-button icon-only>
+            <ion-icon name="refresh"></ion-icon>
+        </button>
+        <ion-label>Map</ion-label>
+        <button ion-button icon-only>
+            <ion-icon name="map"></ion-icon>
+        </button>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+
+<ion-nav #mycontent [root]="rootPage"></ion-nav>
