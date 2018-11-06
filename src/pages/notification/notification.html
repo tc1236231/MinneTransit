@@ -1,13 +1,14 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      Notification settings
+      XXX Notification Settings
     </ion-title>
   </ion-navbar>
 </ion-header>
 <ion-content>
   <ion-list>
-    <ion-list-header>Stop Number: {{stop.sNum}} </ion-list-header>
+    <ion-list-header>Stop Number: {{currentStop.sNum}} </ion-list-header>
+    <ion-list-header>Route and Direction: {{currentRouteDir}} </ion-list-header>
     <ion-item>
       <ion-label>Time Mode</ion-label>
       <ion-select [(ngModel)]="timeMode" interface="popover">
