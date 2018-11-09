@@ -9,7 +9,6 @@ import { StopForm } from '../../models/stop-form';
 export class NotificationPage {
   stop: StopForm;
   notiOn: boolean;
-  timeMode: string;
   timeInterval: string;
   onText: string;
 

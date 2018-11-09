@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Rx';
 import { StopForm } from '../../models/stop-form';
 import { MetroTransitAPI } from '../../providers/metro-transit-api';
 import { NotificationManager } from '../../providers/notification-manager';
+import { FilterPage } from '../filter/filter';
 import { NotificationPage } from '../notification/notification';
 @Component({
   selector: 'page-home',
@@ -42,21 +43,16 @@ export class HomePage {
     this.stops.push(newStop);
   }
 
-  /* Dummy testing method
-  getStopNotiUpdate() {
-    var changedStop = this.navParam.get('stop');
-    let stopNumber = parseInt(this.stopQuery.get("number").value);
+  setFilter(stop: StopForm) {
+    this.navCtrl.push(FilterPage, { stop: stop });
   }
-  */
 
   closeCard(stop: StopForm) {
     this.stops.splice(this.stops.indexOf(stop), 1);
   }
 
   setNotification(stop: StopForm) {
-    this.navCtrl.push(NotificationPage, {
-      stop: stop,
-    });
+    this.navCtrl.push(NotificationPage, { stop: stop });
   }
 
   ionViewDidLoad() {

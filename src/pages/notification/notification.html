@@ -6,28 +6,12 @@
   </ion-navbar>
 </ion-header>
 <ion-content>
-  <ion-list>
-    <ion-list-header>Stop Number: {{stop.sNum}} </ion-list-header>
+  <form>
+    Stop #{{stop.sNum}}
+    <br>For {{stop.tracksAllRouteDirs ? "all routes" : "selected routes"}}
     <ion-item>
-      <ion-label>Time Mode</ion-label>
-      <ion-select [(ngModel)]="timeMode" interface="popover">
-        <ion-option selected="true">Before</ion-option>
-        <ion-option>Every</ion-option>
-      </ion-select>
-    </ion-item>
-    <ion-item>
-      <ion-label>Time Interval</ion-label>
-      <ion-select [(ngModel)]="timeInterval" interface="popover">
-        <ion-option value=1>1 minute</ion-option>
-        <ion-option value=2>2 minutes</ion-option>
-        <ion-option value=5>5 minutes</ion-option>
-        <ion-option value=10 selected="true">10 minutes</ion-option>
-        <ion-option value=15>15 minutes</ion-option>
-        <ion-option value=20>20 minutes</ion-option>
-        <ion-option value=30>30 minutes</ion-option>
-        <ion-option value=40>40 minutes</ion-option>
-        <ion-option value=50>50 minutes</ion-option>
-      </ion-select>
+      <ion-label>Lead time (min):</ion-label>
+      <ion-input type="number" [(ngModel)]="timeInterval" name="leadTime"></ion-input>
     </ion-item>
     <div text-right>
       <button ion-button color="secondary" item-end icon-start (click)="setNotification()">
@@ -37,5 +21,5 @@
         Turn Off
       </button>
     </div>
-  </ion-list>
+  </form>
 </ion-content>

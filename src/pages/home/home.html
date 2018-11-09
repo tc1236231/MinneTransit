@@ -3,16 +3,16 @@
     <ion-title>
       MinneTransit
     </ion-title>
-      <button ion-button menuToggle>
-        <ion-icon name="menu"></ion-icon>
-      </button>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
   <form [formGroup]="stopQuery" (ngSubmit)="receiveStopNum()">
     <ion-item>
-      <ion-label floating>Stop Number</ion-label>
+      <ion-label floating>Stop number</ion-label>
       <ion-input type="number" formControlName="number"></ion-input>
       <button ion-button clear icon-only item-end icon-start [disabled]="!stopQuery.valid">
         <ion-icon name="checkmark"></ion-icon>
@@ -34,6 +34,11 @@
       </button>
     </ion-item>
     <ion-card-content>
+      <button ion-button clear (click)="setFilter(stop)">
+        <span style="text-decoration: underline;">
+          For {{stop.tracksAllRouteDirs ? "all routes" : "selected routes"}}
+        </span>
+      </button>
       Updated {{stop.updateTimeString}}
       <table style="width:100%">
         <tr>

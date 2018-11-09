@@ -5,6 +5,7 @@ import { LocalNotifications } from '@ionic-native/local-notifications';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
+import { FilterPage } from '../pages/filter/filter';
 import { HomePage } from '../pages/home/home';
 import { NotificationPage } from '../pages/notification/notification';
 import { MetroTransitAPI } from '../providers/metro-transit-api';
@@ -15,7 +16,8 @@ import { MyApp } from './app.component';
   declarations: [
     MyApp,
     HomePage,
-    NotificationPage
+    NotificationPage,
+    FilterPage
   ],
   imports: [
     BrowserModule,
@@ -26,7 +28,8 @@ import { MyApp } from './app.component';
   entryComponents: [
     MyApp,
     HomePage,
-    NotificationPage
+    NotificationPage,
+    FilterPage
   ],
   providers: [
     NotificationManager,

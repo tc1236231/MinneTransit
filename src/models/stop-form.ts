@@ -7,19 +7,29 @@ import { RouteDir } from './route-dir';
  */
 export class StopForm {
     sNum: number // The stop number
-    routeDirs: RouteDir[] // The list of route-directions to be tracked
+
+    trackedRouteDirs: RouteDir[] // The list of route-directions to be tracked
     allRouteDirs: RouteDir[] // The list of route-directions serving this stop
+    tracksAllRouteDirs: boolean // Whether to track all trips, regardless of trackedRouteDirs filter. Defaults to true.
+
     notiSet: boolean // Whether notifications are enabled for this StopForm
     notiMinutes: number // Number of minutes ahead when the notification should fire
+
     updateTime: Date // Time of last update
     updateTimeString: string
+
+    allDepartures: NexTripDeparture[] // Array of all departures returned at last update
     departures: NexTripDeparture[] // Array of filtered departures returned at last update
+
     nextNotiTime: Date // When the next notification should fire, based on last update
     nextNotiDep: NexTripDeparture // The departure for which the next notification should fire
 
     constructor(sNum: number) {
         this.sNum = sNum;
         this.notiSet = false;
+        this.tracksAllRouteDirs = true;
+        this.allDepartures = [];
+        this.departures = [];
     }
 
     enableNoti(minutes: number): void {
@@ -37,7 +47,8 @@ export class StopForm {
                 values.forEach(dep => {
                     dep.DepartureTime = metrotransitapi.parseJsonDate(dep.DepartureTime.toString());
                 });
-                this.departures = values;
+                this.allDepartures = values;
+                this.departures = this.filter(values);
                 this.updateTime = new Date();
                 this.updateTimeString = this.updateTime.toLocaleTimeString();
 
@@ -55,10 +66,35 @@ export class StopForm {
         return [this.nextNotiTime, this.nextNotiDep];
     }
 
-    filter(value: NexTripDeparture, index: number, array: NexTripDeparture[]): boolean {
-        if (this.routeDirs) {
-            for (let routeDir of this.routeDirs) if (routeDir.route == value.Route && routeDir.direction == value.RouteDirection) return true;
-            return false;
-        } else return true;
+    /**
+     * Make a list of route directions from the list of departures at last update.
+     */
+    refreshRDList(): void {
+        this.allRouteDirs = RouteDir.extractRouteDirsFromDeps(this.allDepartures);
+    }
+
+    /**
+     * From a list of departures, select those that are included in the list of route-directions to be tracked.
+     * If tracksAllRouteDirs == true, return entire list.
+     */
+    filter(departures: NexTripDeparture[]): NexTripDeparture[] {
+        if (this.tracksAllRouteDirs) {
+            return departures;
+        } else {
+            let output: NexTripDeparture[] = [];
+            for (let dep of departures)
+                for (let routeDir of this.trackedRouteDirs)
+                    if (routeDir.route == dep.Route && routeDir.direction == dep.RouteDirection)
+                        output.push(dep);
+            return output;
+        }
+    }
+
+    /**
+     * Runs the list of departures at last update through the filter again.
+     */
+    refilter(): void {
+        this.departures = this.filter(this.allDepartures);
+        if (this.notiSet) this.updateNextNoti();
     }
 }
