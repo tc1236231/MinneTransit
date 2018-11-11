@@ -1,13 +1,12 @@
 import { Component } from '@angular/core';
-import { Platform } from 'ionic-angular';
-import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Observable } from 'rxjs/Rx';
-
+import { StatusBar } from '@ionic-native/status-bar';
+import { Platform } from 'ionic-angular';
 import { HomePage } from '../pages/home/home';
 import { NotificationManager } from '../providers/notification-manager';
 @Component({
-  template: '<ion-nav [root]="rootPage"></ion-nav>',
+  //template: '<ion-nav [root]="rootPage"></ion-nav>',
   templateUrl: 'app.html'
 })
 export class MyApp {
@@ -26,4 +25,3 @@ export class MyApp {
     });
   }
 }
-
