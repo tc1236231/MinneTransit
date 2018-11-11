@@ -7,6 +7,7 @@ import { StopForm } from '../../models/stop-form';
 import { Observable } from 'rxjs/Rx';
 import { RouteDir } from '../../models/route-dir';
 import { NotificationManager } from '../../providers/notification-manager';
+import { FilterPage } from '../filter/filter';
 
 @Component({
   selector: 'page-home',
@@ -48,7 +49,7 @@ export class HomePage {
     this.stops.push(newStop);
   }
 
-  toggleExpandRouteInfo(routeDir : RouteDir) : void
+  toggleExpandRouteInfo(event : Event, routeDir : RouteDir) : void
   {
     let index = this.expandedRoutDirs.indexOf(routeDir.toString());
     if(index != -1)
@@ -67,18 +68,17 @@ export class HomePage {
     return NotificationManager.getSingleNotificationStatus(stop, routeDir)[0];
   }
 
-  /* Dummy testing method
-  getStopNotiUpdate() {
-    var changedStop = this.navParam.get('stop');
-    let stopNumber = parseInt(this.stopQuery.get("number").value);
+  setFilter(stop: StopForm) {
+    this.navCtrl.push(FilterPage, { stop: stop });
   }
-  */
 
   closeCard(stop : StopForm) {
+    stop.onClose();
     this.stops.splice(this.stops.indexOf(stop),1);
   }
 
-  setNotification(stop : StopForm, routeDir : RouteDir) {
+  onClickSetNotification(event : Event, stop : StopForm, routeDir : RouteDir) {
+    event.stopPropagation();
     this.navCtrl.push(NotificationPage, {
       stop: stop,
       routeDir : routeDir

@@ -14,9 +14,10 @@ export class NotificationPage {
   currentRouteDir: RouteDir;
   notiOn: boolean;
   timeMode: string;
-  timeInterval: string;
+  //timeInterval: string;
   onText: string;
   currentSingleNotification: SingleNotification;
+  timeIntervalDateStr: string | number;
 
   constructor(public navCtrl: NavController, private navParams: NavParams) {
     this.currentStop = this.navParams.get("stop");
@@ -24,14 +25,17 @@ export class NotificationPage {
     //this.notiOn = this.currentStop.notiSet;
     let currentNotificationStatus = NotificationManager.getSingleNotificationStatus(this.currentStop, this.currentRouteDir);
     this.notiOn = currentNotificationStatus[0];
-    this.timeInterval = this.notiOn ? currentNotificationStatus[1].toString() : "2";
+    let timeInterval = this.notiOn ? currentNotificationStatus[1].toString() : "2";
+    let tempDate = new Date();
+    tempDate.setMinutes(parseInt(timeInterval));
+    this.timeIntervalDateStr = tempDate.toISOString();
     this.currentSingleNotification = currentNotificationStatus[2];
     this.onText = this.notiOn ? "Save" : "Turn On";
   }
 
   setNotification() {
     //this.currentStop.enableNoti(parseInt(this.timeInterval));
-    let minutesInterval : number = parseInt(this.timeInterval);
+    let minutesInterval : number = new Date(this.timeIntervalDateStr).getMinutes();
     let notificationData = this.currentStop.getNextNotificationData(this.currentRouteDir, minutesInterval);
     let title = `Trip approaching stop #${this.currentStop.sNum}`;
     let content = `${this.currentRouteDir.route} ${this.currentRouteDir.direction} is departing in ${notificationData[0]} minute(s)`;

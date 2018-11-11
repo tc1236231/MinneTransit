@@ -24,6 +24,9 @@
       <ion-card *ngFor="let stop of stops.slice().reverse()">
         <ion-item>
           <ion-card-header>Stop #{{stop.sNum}}</ion-card-header>
+          <button ion-button clear icon-only item-end icon-start (click)="setFilter(stop)">
+            <ion-icon name="funnel"></ion-icon>
+          </button>
           <button ion-button clear icon-only item-end icon-start (click)="updateStop(stop)">
             <ion-icon name="refresh"></ion-icon>
           </button>
@@ -32,19 +35,23 @@
           </button>
         </ion-item>
         <ion-card-content>
-          Updated {{stop.updateTimeString}}
-          <ion-card *ngFor="let routeDir of stop.allRouteDirs">
+          Updated {{stop.updateTime | timeAgo}}
+          <ion-card *ngFor="let routeDir of stop.getTrackedRouteDirs()" (click)="toggleExpandRouteInfo($event, routeDir)">
             <ion-item>
-              <div style="margin-top:-20px;">
-              <ion-card-header>{{routeDir.route}}</ion-card-header>
-              <div style="padding-left: 16px; font-size:1rem; margin-top: -12px;">{{routeDir.direction}}</div>
+              <div style="margin-top:-20px; margin-bottom: -20px;">
+                <ion-card-header>{{routeDir.route}}</ion-card-header>
+                <div style="padding-left: 16px; font-size:1rem; margin-top: -12px;">{{routeDir.direction}}</div>
               </div>
-              <button ion-button clear icon-only item-end icon-start (click)="setNotification(stop,routeDir)">
+              <div style="float: right;position: relative; top: -0.7vh;" [innerHtml]="stop.routeDirSchedules.get(routeDir)[0].DepartureText">   
+              </div>
+              <button ion-button clear icon-only item-end icon-start (click)="onClickSetNotification($event, stop,routeDir)">
                   <ion-icon [name]="this.getNotificationStatus(stop, routeDir) ? 'notifications' : 'notifications-off'"></ion-icon>
               </button>
+              <!--
               <button ion-button clear icon-only item-end icon-start (click)="toggleExpandRouteInfo(routeDir)">
                 <ion-icon [name]="this.checkExpandStatus(routeDir) === false ? 'add-circle' : 'remove-circle'"></ion-icon>
               </button>
+              -->
             </ion-item>
             <table style="width:80%; margin-left: auto; margin-right: auto; margin-top: 5px; margin-bottom: 10px;" *ngIf="this.checkExpandStatus(routeDir) === true">
               <tr>

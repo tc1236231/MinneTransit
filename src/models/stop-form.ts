@@ -8,7 +8,7 @@ import { NotificationManager } from '../providers/notification-manager';
  */
 export class StopForm {
     sNum : number // The stop number
-    trackedRouteDirs : RouteDir[] // The list of route-directions to be tracked
+    unTrackedRouteDirs : RouteDir[] // The list of route-directions to be tracked
     allRouteDirs : RouteDir[] // The list of route-directions serving this stop
     routeDirSchedules : Map<RouteDir, NexTripDeparture[]>
     notiSet : boolean // Whether notifications are enabled for this StopForm
@@ -22,6 +22,7 @@ export class StopForm {
     constructor(sNum : number) {
         this.sNum = sNum;
         this.notiSet = false;
+        this.unTrackedRouteDirs = [];
     }
 
     enableNoti(minutes : number) : void {
@@ -66,7 +67,7 @@ export class StopForm {
                     if(a.toString() < b.toString()) { return -1; }
                     if(a.toString()  > b.toString()) { return 1; }
                     return 0;
-                });             
+                });
                 this.departures = values;
                 this.updateTime = new Date();
                 this.updateTimeString = this.updateTime.toLocaleTimeString();
@@ -80,6 +81,33 @@ export class StopForm {
                 console.log(error);
             }
           );
+    }
+
+    getTrackedRouteDirs() : RouteDir[]
+    {
+        if(this.allRouteDirs == undefined)
+            return [];
+        //let trackedRouteDirs = this.allRouteDirs;
+        let trackedRouteDirs = Object.assign([], this.allRouteDirs);
+        for(let rDir of this.allRouteDirs)
+        {
+            this.unTrackedRouteDirs.forEach( (item, index) => {
+                if(item.route == rDir.route && item.direction == rDir.direction) 
+                {
+                    let index = trackedRouteDirs.findIndex((value, index) => {
+                        if(value.route == rDir.route && value.direction == rDir.direction)
+                            return true;
+                        else
+                            return false;
+                    });
+                    if (index > -1) {
+                        trackedRouteDirs.splice(index, 1);
+                    }
+                }
+              });
+        }
+        //console.log(trackedRouteDirs);
+        return trackedRouteDirs;
     }
 
     updateNextNoti() : [Date, NexTripDeparture] {
@@ -145,5 +173,12 @@ export class StopForm {
         } else {
             return true;
         }
+    }
+
+    onClose()
+    {
+        this.allRouteDirs.forEach(element => {
+            NotificationManager.removeSingleNotification(this, element);
+        });
     }
 }

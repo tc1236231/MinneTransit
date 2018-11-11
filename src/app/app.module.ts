@@ -10,12 +10,16 @@ import { NotificationPage } from '../pages/notification/notification';
 import { MetroTransitAPI } from '../providers/metro-transit-api'
 import { NotificationManager } from '../providers/notification-manager';
 import { HttpModule } from '@angular/http';
+import { TimeAgoPipe } from 'time-ago-pipe';
+import { FilterPage } from '../pages/filter/filter';
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
-    NotificationPage
+    NotificationPage,
+    FilterPage,
+    TimeAgoPipe
   ],
   imports: [
     BrowserModule,
@@ -26,6 +30,7 @@ import { HttpModule } from '@angular/http';
   entryComponents: [
     MyApp,
     HomePage,
+    FilterPage,
     NotificationPage
   ],
   providers: [
