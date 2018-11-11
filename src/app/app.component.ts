@@ -6,7 +6,7 @@ import { Platform } from 'ionic-angular';
 import { HomePage } from '../pages/home/home';
 import { NotificationManager } from '../providers/notification-manager';
 @Component({
-  //template: '<ion-nav [root]="rootPage"></ion-nav>',
+  template: '<ion-nav [root]="rootPage"></ion-nav>',
   templateUrl: 'app.html'
 })
 export class MyApp {
