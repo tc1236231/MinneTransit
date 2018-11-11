@@ -1,33 +1,21 @@
-import { NexTripDeparture } from "./next-trip-departure";
-
 export class RouteDir {
-    route: string // Route number or name (for rapid transit lines); no terminal letter
-    direction: string // Cardinal direction in all caps, e.g. "WESTBOUND"
+    route : string // route number or name (for rapid transit lines & Northstar); no terminal letter
+    direction : string // Cardinal direction in all caps, e.g. "WESTBOUND"
 
-    constructor(route: string, direction: string) {
+    constructor(route, dir)
+    {
         this.route = route;
-        this.direction = direction;
+        this.direction = dir;
     }
 
-    equals(other: RouteDir): boolean {
-        return this.route == other.route && this.direction == other.direction;
+    public toString(): string {
+        return this.route + ' ' + this.direction;
     }
 
-    static extractRouteDirsFromDeps(departures: NexTripDeparture[]): RouteDir[] {
-        let routeDirs: RouteDir[] = [];
-        for (let dep of departures) {
-            let newRD: RouteDir = new RouteDir(dep.Route, dep.RouteDirection);
-
-            // Check for uniqueness
-            let isUnique: boolean = true;
-            for (let rd of routeDirs) {
-                if (rd.equals(newRD)) {
-                    isUnique = false;
-                    break;
-                }
-            }
-            if (isUnique) routeDirs.push(newRD);
-        }
-        return routeDirs;
+    public equals(other : RouteDir): boolean {
+        if(this.route == other.route && this.direction == other.direction)
+            return true;
+        else
+            return false;
     }
 }

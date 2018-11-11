@@ -3,50 +3,68 @@
     <ion-title>
       MinneTransit
     </ion-title>
-      <button ion-button menuToggle>
-        <ion-icon name="menu"></ion-icon>
-      </button>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
+
   <form [formGroup]="stopQuery" (ngSubmit)="receiveStopNum()">
     <ion-item>
       <ion-label floating>Stop Number</ion-label>
-      <ion-input type="number" formControlName="number"></ion-input>
+      <ion-input type="tel" formControlName="number" ></ion-input>
       <button ion-button clear icon-only item-end icon-start [disabled]="!stopQuery.valid">
         <ion-icon name="checkmark"></ion-icon>
       </button>
     </ion-item>
   </form>
 
-  <ion-card *ngFor="let stop of stops">
-    <ion-item>
-      <ion-card-header>Stop #{{stop.sNum}}</ion-card-header>
-      <button ion-button clear icon-only item-end icon-start (click)="updateStop(stop)">
-        <ion-icon name="refresh"></ion-icon>
-      </button>
-      <button ion-button clear icon-only item-end icon-start (click)="setNotification(stop)">
-        <ion-icon [name]="stop.notiSet ? 'notifications' : 'notifications-off'"></ion-icon>
-      </button>
-      <button ion-button clear color="danger" icon-only item-end icon-start (click)="closeCard(stop)">
-        <ion-icon name="close"></ion-icon>
-      </button>
-    </ion-item>
-    <ion-card-content>
-      Updated {{stop.updateTimeString}}
-      <table style="width:100%">
-        <tr>
-          <th>Route</th>
-          <th></th>
-          <th>Departs</th>
-        </tr>
-        <tr *ngFor="let departure of stop.departures">
-          <td>{{departure.Route}}{{departure.Terminal}}</td>
-          <td>{{departure.Description}}</td>
-          <td>{{departure.DepartureText}} </td>
-        </tr>
-      </table>
-    </ion-card-content>
-  </ion-card>
+      <ion-card *ngFor="let stop of stops.slice().reverse()">
+        <ion-item>
+          <ion-card-header>Stop #{{stop.sNum}}</ion-card-header>
+          <button ion-button clear icon-only item-end icon-start (click)="setFilter(stop)">
+            <ion-icon name="funnel"></ion-icon>
+          </button>
+          <button ion-button clear icon-only item-end icon-start (click)="updateStop(stop)">
+            <ion-icon name="refresh"></ion-icon>
+          </button>
+          <button ion-button clear color="danger" icon-only item-end icon-start (click)="closeCard(stop)">
+            <ion-icon name="close"></ion-icon>
+          </button>
+        </ion-item>
+        <ion-card-content>
+          Updated {{stop.updateTime | timeAgo}}
+          <ion-card *ngFor="let routeDir of stop.getTrackedRouteDirs()" (click)="toggleExpandRouteInfo($event, routeDir)">
+            <ion-item>
+              <div style="margin-top:-20px; margin-bottom: -20px;">
+                <ion-card-header>{{routeDir.route}}</ion-card-header>
+                <div style="padding-left: 16px; font-size:1rem; margin-top: -12px;">{{routeDir.direction}}</div>
+              </div>
+              <div style="float: right;position: relative; top: -0.7vh;" [innerHtml]="stop.routeDirSchedules.get(routeDir)[0].DepartureText">   
+              </div>
+              <button ion-button clear icon-only item-end icon-start (click)="onClickSetNotification($event, stop,routeDir)">
+                  <ion-icon [name]="this.getNotificationStatus(stop, routeDir) ? 'notifications' : 'notifications-off'"></ion-icon>
+              </button>
+              <!--
+              <button ion-button clear icon-only item-end icon-start (click)="toggleExpandRouteInfo(routeDir)">
+                <ion-icon [name]="this.checkExpandStatus(routeDir) === false ? 'add-circle' : 'remove-circle'"></ion-icon>
+              </button>
+              -->
+            </ion-item>
+            <table style="width:80%; margin-left: auto; margin-right: auto; margin-top: 5px; margin-bottom: 10px;" *ngIf="this.checkExpandStatus(routeDir) === true">
+              <tr>
+                <th>Route</th>
+                <th>Departs</th>
+              </tr>
+              <tr *ngFor="let departure of stop.routeDirSchedules.get(routeDir)">
+                <!--<td>{{departure.Route}}{{departure.Terminal}}</td>-->
+                <td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: cetner;">{{departure.Description}}</td> 
+                <td style="text-align: center;">{{departure.DepartureText}} </td>
+              </tr>
+            </table>
+          </ion-card>
+        </ion-card-content>
+      </ion-card>
 </ion-content>
