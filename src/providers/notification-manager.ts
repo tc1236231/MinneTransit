@@ -1,4 +1,3 @@
-
 import { Component } from '@angular/core';
 import { LocalNotifications } from "@ionic-native/local-notifications";
 import { StopForm } from '../models/stop-form';

@@ -18,4 +18,12 @@ export class RouteDir {
         else
             return false;
     }
+
+    public indexInArray(array: RouteDir[]) : number
+    {
+        let rDir : RouteDir = this;
+        return array.findIndex(function(element) {
+            return element.direction == rDir.direction && element.route == rDir.route;
+        });
+    }
 }

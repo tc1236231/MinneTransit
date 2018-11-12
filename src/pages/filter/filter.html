@@ -7,16 +7,14 @@
 </ion-header>
 <ion-content>
     <form>
-        Stop #{{stop.sNum}}
-        <br>Select the routes to be tracked:
-        <!--
+        <h3>Stop #{{stop.sNum}}</h3>
+        <h4>Select the routes to be tracked:</h4>
         <ion-item>
-            <ion-checkbox name="trackAllRDs" [(ngModel)]="tracksAllRouteDirs" (ionChange)="updateTracksAllRDs($event)"></ion-checkbox>
-            <ion-label>Track all routes</ion-label>
+            <ion-checkbox name="trackAllRDs" (ionChange)="updateTracksAllRDs($event)"></ion-checkbox>
+            <ion-label>{{'Select All'}}</ion-label>
         </ion-item>
-    -->
-        <ion-item *ngFor="let routeDir of allRouteDirs">
-            <ion-checkbox name="rd" (ionChange)="updateCheckbox(routeDir, $event)" [checked]="this.unTrackedRouteDirs.indexOf(routeDir) == -1"></ion-checkbox>
+        <ion-item *ngFor="let routeDir of allRouteDirs; let i = index">
+            <ion-checkbox name="rd" [(ngModel)]="selected[i]"></ion-checkbox>
             <ion-label>{{routeDir.route}} {{routeDir.direction}}</ion-label>
         </ion-item>
         <div text-right>

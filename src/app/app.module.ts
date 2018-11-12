@@ -12,6 +12,7 @@ import { NotificationManager } from '../providers/notification-manager';
 import { TimeAgoPipe } from 'time-ago-pipe';
 import { FilterPage } from '../pages/filter/filter';
 import { MyApp } from './app.component';
+import { TabsPage } from '../pages/tabs/tabs';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { MyApp } from './app.component';
     HomePage,
     NotificationPage,
     FilterPage,
+    TabsPage,
     TimeAgoPipe
   ],
   imports: [
@@ -31,6 +33,7 @@ import { MyApp } from './app.component';
     MyApp,
     HomePage,
     FilterPage,
+    TabsPage,
     NotificationPage
   ],
   providers: [

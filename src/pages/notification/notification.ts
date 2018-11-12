@@ -17,7 +17,7 @@ export class NotificationPage {
   //timeInterval: string;
   onText: string;
   currentSingleNotification: SingleNotification;
-  timeIntervalDateStr: string | number;
+  timeIntervalDateStr: string;
 
   constructor(public navCtrl: NavController, private navParams: NavParams) {
     this.currentStop = this.navParams.get("stop");
