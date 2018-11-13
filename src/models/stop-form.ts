@@ -2,6 +2,7 @@ import { NexTripDeparture } from './next-trip-departure';
 import { RouteDir } from './route-dir';
 import { MetroTransitAPI } from '../providers/metro-transit-api';
 import { NotificationManager } from '../providers/notification-manager';
+import { SingleNotification } from './notification-model';
 
 /**
  * Describes a stop to be tracked, and preferences for tracking.
@@ -83,6 +84,17 @@ export class StopForm {
           );
     }
 
+    isTrackedRouteDir(rDir : RouteDir) : boolean
+    {
+        let trackedDirs = this.getTrackedRouteDirs();
+        for(let value of trackedDirs)
+        {
+            if(value.toString() == rDir.toString())
+                return true;
+        }
+        return false;
+    }
+
     getTrackedRouteDirs() : RouteDir[]
     {
         if(this.allRouteDirs == undefined)
@@ -117,11 +129,12 @@ export class StopForm {
         /**
          * Updates the singleNotification firing time
          */
-        let currentSingleNotifications = NotificationManager.getSingleNotificationsForStop(this);
+        let currentSingleNotifications : SingleNotification[] = NotificationManager.getSingleNotificationsForStop(this);
+        //assert(currentSingleNotifications.length <= 1, "one noti for each stop");
         for(let sNoti of currentSingleNotifications)
         {
-            let newNotiData = this.getNextNotificationData(sNoti.routeDir, sNoti.minutesInterval);
-            let content = `${sNoti.routeDir.route} ${sNoti.routeDir.direction} is departing in ${newNotiData[0]} minute(s)`;
+            let newNotiData = this.getNextNotificationData(sNoti.minutesInterval);
+            let content = `${newNotiData[3].route} ${newNotiData[3].direction} is departing in ${newNotiData[0]} minute(s)`;
             sNoti.content = content;
             sNoti.fireTime = newNotiData[1];
         }
@@ -129,11 +142,13 @@ export class StopForm {
         return [this.nextNotiTime, this.nextNotiDep];
     }
 
-    getNextNotificationData(routeDir : RouteDir, minutesInterval : number) : [Number, Date, NexTripDeparture] {
-        var notificationTime, retDeparture, firingTime;
+    getNextNotificationData(minutesInterval : number) : [Number, Date, NexTripDeparture, RouteDir] {
+        var notificationTime, retDeparture, firingTime, routeDir;
         for(let dep of this.departures) {
-            if(dep.Route == routeDir.route && dep.RouteDirection == routeDir.direction)
+            let rDir = new RouteDir(dep.Route, dep.RouteDirection);
+            if(this.isTrackedRouteDir(rDir))
             {
+                routeDir = rDir;
                 let minsUntilDep : number = Math.ceil((dep.DepartureTime.valueOf() - new Date().valueOf()) / 60000);
                 notificationTime = minsUntilDep;
                 retDeparture = dep;
@@ -143,7 +158,7 @@ export class StopForm {
                 //this.nextNotiTime = new Date(this.nextNotiDep.DepartureTime.valueOf() - this.notiMinutes * 60000);
             }
         }
-        return [notificationTime, firingTime, retDeparture];
+        return [notificationTime, firingTime, retDeparture, routeDir];
     }
 
     findRouteDir(route : String, direction : String) : RouteDir
@@ -177,8 +192,6 @@ export class StopForm {
 
     onClose()
     {
-        this.allRouteDirs.forEach(element => {
-            NotificationManager.removeSingleNotification(this, element);
-        });
+        NotificationManager.removeAllSingleNotificationForStop(this);
     }
 }

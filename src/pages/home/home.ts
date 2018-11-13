@@ -63,9 +63,9 @@ export class HomePage {
     return this.expandedRoutDirs.indexOf(routeDir.toString()) != -1;
   }
 
-  getNotificationStatus(stop: StopForm, routeDir : RouteDir) : boolean
+  getNotificationStatus(stop: StopForm) : boolean
   {
-    return NotificationManager.getSingleNotificationStatus(stop, routeDir)[0];
+    return NotificationManager.getSingleNotificationStatusForStop(stop) != undefined;
   }
 
   setFilter(stop: StopForm) {
@@ -77,11 +77,10 @@ export class HomePage {
     this.stops.splice(this.stops.indexOf(stop),1);
   }
 
-  onClickSetNotification(event : Event, stop : StopForm, routeDir : RouteDir) {
+  onClickSetNotification(event : Event, stop : StopForm) {
     event.stopPropagation();
     this.navCtrl.push(NotificationPage, {
-      stop: stop,
-      routeDir : routeDir
+      stop: stop
     });
   }
 

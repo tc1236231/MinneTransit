@@ -19,4 +19,9 @@ export class MetroTransitAPI {
         let departuresObs = this.http.get(`${this.MetroTransitAPI_URL}${stopID}?format=json`).map(res => <NexTripDeparture[]>res.json());
         return departuresObs;
     }
+
+    getStopsJSON()
+    {
+        return this.http.get('assets/data/stopData.json').map(res => res.json());
+    }
 }

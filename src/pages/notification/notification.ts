@@ -11,7 +11,7 @@ import { SingleNotification } from '../../models/notification-model';
 })
 export class NotificationPage {
   currentStop: StopForm;
-  currentRouteDir: RouteDir;
+  //currentRouteDir: RouteDir;
   notiOn: boolean;
   timeMode: string;
   //timeInterval: string;
@@ -21,24 +21,23 @@ export class NotificationPage {
 
   constructor(public navCtrl: NavController, private navParams: NavParams) {
     this.currentStop = this.navParams.get("stop");
-    this.currentRouteDir = this.navParams.get("routeDir");
-    //this.notiOn = this.currentStop.notiSet;
-    let currentNotificationStatus = NotificationManager.getSingleNotificationStatus(this.currentStop, this.currentRouteDir);
-    this.notiOn = currentNotificationStatus[0];
-    let timeInterval = this.notiOn ? currentNotificationStatus[1].toString() : "2";
+    //this.currentRouteDir = this.navParams.get("routeDir");
+    this.notiOn = this.currentStop.notiSet;
+    this.currentSingleNotification  = NotificationManager.getSingleNotificationStatusForStop(this.currentStop);
+    this.notiOn = this.currentSingleNotification != undefined;
+    let timeInterval = this.notiOn ? this.currentSingleNotification.minutesInterval.toString() : "2";
     let tempDate = new Date();
     tempDate.setMinutes(parseInt(timeInterval));
     this.timeIntervalDateStr = tempDate.toISOString();
-    this.currentSingleNotification = currentNotificationStatus[2];
     this.onText = this.notiOn ? "Save" : "Turn On";
   }
 
   setNotification() {
-    //this.currentStop.enableNoti(parseInt(this.timeInterval));
+    this.currentStop.enableNoti(parseInt(this.timeIntervalDateStr));
     let minutesInterval : number = new Date(this.timeIntervalDateStr).getMinutes();
-    let notificationData = this.currentStop.getNextNotificationData(this.currentRouteDir, minutesInterval);
+    let notificationData = this.currentStop.getNextNotificationData(minutesInterval);
     let title = `Trip approaching stop #${this.currentStop.sNum}`;
-    let content = `${this.currentRouteDir.route} ${this.currentRouteDir.direction} is departing in ${notificationData[0]} minute(s)`;
+    let content = `${notificationData[3].route} ${notificationData[3].direction} is departing in ${notificationData[0]} minute(s)`;
     if(this.notiOn)
     {
       this.currentSingleNotification.title = title;
@@ -47,13 +46,13 @@ export class NotificationPage {
       this.currentSingleNotification.fireTime = notificationData[1];
     }
     else
-      NotificationManager.createSingleNotification(title, content,  notificationData[1], this.currentStop, this.currentRouteDir, minutesInterval);
+      NotificationManager.createSingleNotification(title, content,  notificationData[1], this.currentStop, minutesInterval);
     this.navCtrl.pop();
   }
 
   turnOffNotification() {
     //this.currentStop.notiSet = false;
-    NotificationManager.removeSingleNotification(this.currentStop, this.currentRouteDir);
+    NotificationManager.removeSingleNotificationByID(this.currentSingleNotification.id);
     this.navCtrl.pop();
   }
 }

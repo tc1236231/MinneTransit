@@ -11,18 +11,20 @@ export class NotificationManager
 {
     private static singleNotifications : SingleNotification[] = [];
     private static localnotification : LocalNotifications = new LocalNotifications();
+    private static idCounter: number = 1;
     
     static checkForPermission() {
         if(!this.localnotification.hasPermission())
             this.localnotification.requestPermission();
     }
 
-    static createSingleNotification(title: String, content: String, fireTime: Date, stop : StopForm, routeDir : RouteDir, minutesInterval : number)
+    static createSingleNotification(title: String, content: String, fireTime: Date, stop : StopForm, minutesInterval : number)
     {
         this.checkForPermission();
         
-        let singleNoti = new SingleNotification(title, content, fireTime, stop, routeDir, minutesInterval);
+        let singleNoti = new SingleNotification(this.idCounter, title, content, fireTime, stop, minutesInterval);
         this.singleNotifications.push(singleNoti);
+        this.idCounter++;
     }
 
     static checkForSingleNotification()
@@ -32,6 +34,7 @@ export class NotificationManager
             if(!singleNoti.isFired && currentDate >= singleNoti.fireTime)
             {
                 this.localnotification.schedule([{
+                    id: singleNoti.id,
                     title: `${singleNoti.title}`,
                     text: `${singleNoti.content}`,
                 }]);
@@ -40,10 +43,18 @@ export class NotificationManager
         }
     }
 
-    static removeSingleNotification(stop : StopForm, routeDir : RouteDir) : void
+    static removeSingleNotificationByID(id : number) : void
     {
         this.singleNotifications.forEach( (item, index) => {
-            if(item.stop.sNum == stop.sNum && item.routeDir.equals(routeDir)) 
+            if(item.id == id)
+                this.singleNotifications.splice(index,1);
+          });
+    }
+
+    static removeAllSingleNotificationForStop(stop : StopForm) : void
+    {
+        this.singleNotifications.forEach( (item, index) => {
+            if(item.stop.sNum == stop.sNum)
                 this.singleNotifications.splice(index,1);
           });
     }
@@ -60,23 +71,23 @@ export class NotificationManager
         return retArray;
     }
 
-    static getSingleNotificationStatus(stop : StopForm, routeDir : RouteDir) : [boolean, number, SingleNotification]
+    static getSingleNotificationStatusForStop(stop : StopForm) : SingleNotification
     {
         var minutesInterval = -1;
-        var isNotificationSet : boolean = false;
+        //var isNotificationSet : boolean = false;
         var retSingleNoti = null;
         for(let singleNoti of this.singleNotifications) {
-            if(singleNoti.stop.sNum == stop.sNum && singleNoti.routeDir.equals(routeDir) && !singleNoti.isFired)
+            if(singleNoti.stop.sNum == stop.sNum && !singleNoti.isFired)
             {
-                isNotificationSet = true;
+                //isNotificationSet = true;
                 minutesInterval = singleNoti.minutesInterval;
                 retSingleNoti = singleNoti;
                 break;
             }
         }
-        return [isNotificationSet, minutesInterval, retSingleNoti];
+        return retSingleNoti;
     }
-/* Doesn't work with the new notification system
+/*
     static checkForNotification(stop : StopForm)
     {
         if(new Date() >= stop.nextNotiTime) {

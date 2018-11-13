@@ -8,14 +8,8 @@
 <ion-content>
   <ion-list>
     <ion-list-header>Stop Number: {{currentStop.sNum}} </ion-list-header>
-    <ion-list-header>Route and Direction: {{currentRouteDir}} </ion-list-header>
-    <ion-item>
-      <ion-label>Time Mode</ion-label>
-      <ion-select [(ngModel)]="timeMode" interface="popover">
-        <ion-option selected="true">Before</ion-option>
-        <ion-option>Every</ion-option>
-      </ion-select>
-    </ion-item>
+    <!--<ion-list-header>Route and Direction: {{currentRouteDir}} </ion-list-header>-->
+    <ion-list-header>Route and Direction: All tracked routes directions</ion-list-header>
     <ion-item>
       <ion-label>Time Interval</ion-label>
       <!--<ion-select [(ngModel)]="timeInterval" interface="popover">

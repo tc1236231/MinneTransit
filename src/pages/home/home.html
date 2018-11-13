@@ -27,6 +27,9 @@
           <button ion-button clear icon-only item-end icon-start (click)="setFilter(stop)">
             <ion-icon name="funnel"></ion-icon>
           </button>
+          <button ion-button clear icon-only item-end icon-start (click)="onClickSetNotification($event, stop)">
+            <ion-icon [name]="this.getNotificationStatus(stop) ? 'notifications' : 'notifications-off'"></ion-icon>
+          </button>
           <button ion-button clear icon-only item-end icon-start (click)="updateStop(stop)">
             <ion-icon name="refresh"></ion-icon>
           </button>
@@ -44,9 +47,6 @@
               </div>
               <div style="float: right;position: relative; top: -0.7vh;" [innerHtml]="stop.routeDirSchedules.get(routeDir)[0].DepartureText">   
               </div>
-              <button ion-button clear icon-only item-end icon-start (click)="onClickSetNotification($event, stop,routeDir)">
-                  <ion-icon [name]="this.getNotificationStatus(stop, routeDir) ? 'notifications' : 'notifications-off'"></ion-icon>
-              </button>
               <!--
               <button ion-button clear icon-only item-end icon-start (click)="toggleExpandRouteInfo(routeDir)">
                 <ion-icon [name]="this.checkExpandStatus(routeDir) === false ? 'add-circle' : 'remove-circle'"></ion-icon>
