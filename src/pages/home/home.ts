@@ -46,6 +46,14 @@ export class HomePage {
     this.stopQuery.reset();
     let newStop : StopForm = new StopForm(stopNumber);
     newStop.update(this.metrotransitapi);
+    let dataPromise = this.metrotransitapi.getStopData(stopNumber);
+    newStop.name = "Loading...";
+    dataPromise.then((res) => {
+      newStop.name = res.stop_name;
+      console.log(res);
+    }).catch((err) => {
+      newStop.name = 'Invalid Stop';
+    });
     this.stops.push(newStop);
   }
 

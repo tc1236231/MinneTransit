@@ -24,6 +24,7 @@
       <ion-card *ngFor="let stop of stops.slice().reverse()">
         <ion-item>
           <ion-card-header>Stop #{{stop.sNum}}</ion-card-header>
+          <h5 style="padding-left: 4.2vw; margin-top: -1.5vh;">{{stop.name}}</h5>
           <button ion-button clear icon-only item-end icon-start (click)="setFilter(stop)">
             <ion-icon name="funnel"></ion-icon>
           </button>

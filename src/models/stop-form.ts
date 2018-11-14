@@ -18,7 +18,8 @@ export class StopForm {
     departures : NexTripDeparture[] // Array of filtered departures returned at last update
     nextNotiTime : Date // When the next notification should fire, based on last update
     nextNotiDep : NexTripDeparture // The departure for which the next notification should fire
-    updateTimeString : string 
+    updateTimeString : string;
+    name : string;
 
     constructor(sNum : number) {
         this.sNum = sNum;
@@ -123,6 +124,9 @@ export class StopForm {
     }
 
     updateNextNoti() : [Date, NexTripDeparture] {
+        if(this.departures.length < 1)
+            return;
+            
         this.nextNotiDep = this.departures[0];
         this.nextNotiTime = new Date(this.nextNotiDep.DepartureTime.valueOf() - this.notiMinutes * 60000);
 
@@ -148,12 +152,15 @@ export class StopForm {
             let rDir = new RouteDir(dep.Route, dep.RouteDirection);
             if(this.isTrackedRouteDir(rDir))
             {
-                routeDir = rDir;
                 let minsUntilDep : number = Math.ceil((dep.DepartureTime.valueOf() - new Date().valueOf()) / 60000);
-                notificationTime = minsUntilDep;
-                retDeparture = dep;
-                firingTime = new Date(dep.DepartureTime.valueOf() - minutesInterval * 60000);
-                break;
+                if(minsUntilDep >= minutesInterval)
+                {
+                    routeDir = rDir;
+                    notificationTime = minsUntilDep;
+                    retDeparture = dep;
+                    firingTime = new Date(dep.DepartureTime.valueOf() - minutesInterval * 60000);
+                    break;
+                }
                 //this.nextNotiDep = this.departures[0];
                 //this.nextNotiTime = new Date(this.nextNotiDep.DepartureTime.valueOf() - this.notiMinutes * 60000);
             }
