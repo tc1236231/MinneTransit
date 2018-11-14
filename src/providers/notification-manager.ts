@@ -30,8 +30,12 @@ export class NotificationManager
     static checkForSingleNotification()
     {
         let currentDate = new Date();
+        let startwindow = new Date();
+        let endwindow = new Date();
+        startwindow.setSeconds(startwindow.getSeconds() - 60);
+        endwindow.setSeconds(endwindow.getSeconds() + 60);
         for(let singleNoti of this.singleNotifications) {
-            if(!singleNoti.isFired && currentDate >= singleNoti.fireTime)
+            if(!singleNoti.isFired && endwindow >= singleNoti.fireTime && singleNoti.fireTime >= startwindow)
             {
                 this.localnotification.schedule([{
                     id: singleNoti.id,
