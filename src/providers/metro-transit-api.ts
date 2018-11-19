@@ -3,8 +3,9 @@ import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Rx';
 import { NexTripDeparture } from '../models/next-trip-departure';
-import * as firebase from 'firebase';
+//import * as firebase from 'firebase';
 import { StopData } from '../models/stop-data';
+import { List } from 'ionic-angular';
 
 const promiseTimeout = function(ms, promise){
     // Create a promise that rejects in <ms> milliseconds
@@ -38,6 +39,8 @@ export class MetroTransitAPI {
         return departuresObs;
     }
     
+    /*
+    Dropping usage of firebase DB switching to local JSON
     getStopData(stopID: number) : Promise<StopData>
     {
         let databaseRef = firebase.database().ref('/stops');
@@ -49,6 +52,22 @@ export class MetroTransitAPI {
         });
         return promiseTimeout(10000,promise);
     }
+    */
+
+   getStopData(stopID: number) : Promise<StopData>
+   {
+       let promise = new Promise<StopData>((resolve, reject) => {
+            this.getStopsJSON().subscribe(data =>
+            {
+                for (var stop of data) {
+                    if(stop["stop_id"] == stopID)
+                        resolve(stop)
+                }
+                reject("Stop Not Found")
+            })
+       });
+       return promiseTimeout(10000,promise);
+   }
 
     getStopsJSON()
     {
