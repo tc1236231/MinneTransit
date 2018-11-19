@@ -13,12 +13,10 @@ import { TimeAgoPipe } from 'time-ago-pipe';
 import { FilterPage } from '../pages/filter/filter';
 import { MyApp } from './app.component';
 import { TabsPage } from '../pages/tabs/tabs';
-<<<<<<< HEAD
 import { BackgroundMode } from '@ionic-native/background-mode';
-=======
 import { SearchPage } from '../pages/search/search';
 import { MapPage } from '../pages/map/map';
->>>>>>> ceeb43dd73ea1a93886d193df189687177407ea9
+
 
 @NgModule({
   declarations: [
