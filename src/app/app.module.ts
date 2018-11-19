@@ -15,6 +15,7 @@ import { MyApp } from './app.component';
 import { TabsPage } from '../pages/tabs/tabs';
 import { SearchPage } from '../pages/search/search';
 import { MapPage } from '../pages/map/map';
+import { Geolocation } from '@ionic-native/geolocation';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { MapPage } from '../pages/map/map';
   providers: [
     NotificationManager,
     LocalNotifications,
+    Geolocation,
     StatusBar,
     SplashScreen,
     MetroTransitAPI,
