@@ -5,6 +5,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { Platform } from 'ionic-angular';
 import { NotificationManager } from '../providers/notification-manager';
 import { TabsPage } from '../pages/tabs/tabs';
+import { BackgroundMode } from '@ionic-native/background-mode';
 import * as firebase from 'firebase';
 
 const config = {
@@ -23,13 +24,19 @@ export class MyApp {
   rootPage:any = TabsPage;
   private notificationTimer;
 
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
+  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, backgroundMode: BackgroundMode) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       statusBar.styleLightContent(); //statusBar.styleDefault();
       splashScreen.hide();
       this.notificationTimer = Observable.interval(1000 * 5).subscribe(x => {
+        if (NotificationManager.checkForNotification() == true){
+          backgroundMode.enable();
+        }
+        else {
+          backgroundMode.disable();
+        }
         NotificationManager.checkForSingleNotification();
       });
     });

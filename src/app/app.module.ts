@@ -13,6 +13,7 @@ import { TimeAgoPipe } from 'time-ago-pipe';
 import { FilterPage } from '../pages/filter/filter';
 import { MyApp } from './app.component';
 import { TabsPage } from '../pages/tabs/tabs';
+import { BackgroundMode } from '@ionic-native/background-mode';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { TabsPage } from '../pages/tabs/tabs';
     NotificationPage
   ],
   providers: [
+    BackgroundMode,
     NotificationManager,
     LocalNotifications,
     StatusBar,

@@ -8,6 +8,7 @@ import { Observable } from 'rxjs/Rx';
 import { RouteDir } from '../../models/route-dir';
 import { NotificationManager } from '../../providers/notification-manager';
 import { FilterPage } from '../filter/filter';
+import { BackgroundMode } from '@ionic-native/background-mode';
 
 @Component({
   selector: 'page-home',
@@ -19,7 +20,7 @@ export class HomePage {
   private subscriptionTimer; //temp to put it here for demo purpose
   private expandedRoutDirs : String[] = [];
 
-  constructor(public navCtrl: NavController, private navParam: NavParams, private formBuilder: FormBuilder, private metrotransitapi : MetroTransitAPI) {
+  constructor(public navCtrl: NavController, private navParam: NavParams, private formBuilder: FormBuilder, private metrotransitapi : MetroTransitAPI, public backgroundMode: BackgroundMode) {
     this.stopQuery = this.formBuilder.group({
       number: ['', Validators.required]
     });
@@ -70,6 +71,7 @@ export class HomePage {
   {
     return this.expandedRoutDirs.indexOf(routeDir.toString()) != -1;
   }
+
 
   getNotificationStatus(stop: StopForm) : boolean
   {

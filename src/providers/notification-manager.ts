@@ -1,8 +1,12 @@
+import { MyApp } from './../app/app.component';
 import { Component } from '@angular/core';
 import { LocalNotifications } from "@ionic-native/local-notifications";
 import { StopForm } from '../models/stop-form';
 import { RouteDir } from '../models/route-dir';
 import { SingleNotification } from '../models/notification-model';
+import { BackgroundMode } from '@ionic-native/background-mode';
+import { List } from 'ionic-angular';
+
 
 @Component({
     providers: [LocalNotifications]
@@ -13,6 +17,15 @@ export class NotificationManager
     private static localnotification : LocalNotifications = new LocalNotifications();
     private static idCounter: number = 1;
     
+    static checkForNotification(): boolean{
+        if (this.singleNotifications.length == 0){
+            return false
+        }
+        else{
+            return true
+        }
+    }
+
     static checkForPermission() {
         if(!this.localnotification.hasPermission())
             this.localnotification.requestPermission();
@@ -91,6 +104,9 @@ export class NotificationManager
         }
         return retSingleNoti;
     }
+
+    
+    }
 /*
     static checkForNotification(stop : StopForm)
     {
@@ -104,4 +120,3 @@ export class NotificationManager
         }
     }
 */
-}
