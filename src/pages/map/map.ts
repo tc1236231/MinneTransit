@@ -97,6 +97,15 @@ export class MapPage {
       attributions: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
       maxZoom: 20
     }).addTo(this.map);
+
+    this.map.locate({
+      setView: true,
+      maxZoom: 16
+    }).on('locationfound', (e) => {
+      this.currentCenter = [e.latitude, e.longitude];
+      })
+
+      
     // for (let i = 0; i < this.markerList.length; i++) {
     //   this.markerList[i].addTo(this.map);
     //   if (i == this.markerList.length - 1) {
