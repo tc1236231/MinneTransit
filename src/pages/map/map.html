@@ -1,0 +1,26 @@
+<ion-header>
+    <ion-navbar hideBackButton="true">
+      <ion-title>
+          Maps
+      </ion-title>
+    </ion-navbar>
+  </ion-header>
+   
+  <ion-content>
+    <!-- <form [formGroup]="stopQuery" (ngSubmit)="receiveStop()">
+        <ion-item>
+          <ion-label floating>Stop</ion-label>
+          <ion-input formControlName="stop" ></ion-input>
+        <button ion-button icon-only outline item-end icon-start [disabled]="!stopQuery.valid">
+          <ion-icon name="ios-search"></ion-icon>
+        </button>
+      </ion-item>
+      </form> -->
+      <ion-item>
+        <ion-label (click)="openSearchPage()" color="grey">
+          Search for a stop
+        </ion-label>
+      </ion-item>
+      <div #map id="map" style="width:100%; height:95%;"></div>
+    <!-- <div id="map" style="width:100%; height:100%;"></div> -->
+  </ion-content>

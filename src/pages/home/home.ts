@@ -57,6 +57,29 @@ export class HomePage {
     this.stops.push(newStop);
   }
 
+  ionViewDidEnter() {
+    this.receiveStopFromMap();
+  }
+
+  receiveStopFromMap() {
+    var stopNumber = this.navParam.get("stop_id")
+    console.log(stopNumber)
+    if (stopNumber !== undefined) {
+      console.log("Receiving stop from map...");
+      let newStop : StopForm = new StopForm(stopNumber);
+      newStop.update(this.metrotransitapi);
+      let dataPromise = this.metrotransitapi.getStopData(stopNumber);
+      newStop.name = "Loading...";
+      dataPromise.then((res) => {
+        newStop.name = res.stop_name;
+        console.log(res);
+      }).catch((err) => {
+      newStop.name = 'Invalid Stop';
+      });
+      this.stops.push(newStop);
+    }
+  }
+
   toggleExpandRouteInfo(event : Event, routeDir : RouteDir) : void
   {
     let index = this.expandedRoutDirs.indexOf(routeDir.toString());

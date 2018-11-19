@@ -13,6 +13,8 @@ import { TimeAgoPipe } from 'time-ago-pipe';
 import { FilterPage } from '../pages/filter/filter';
 import { MyApp } from './app.component';
 import { TabsPage } from '../pages/tabs/tabs';
+import { SearchPage } from '../pages/search/search';
+import { MapPage } from '../pages/map/map';
 
 @NgModule({
   declarations: [
@@ -20,6 +22,8 @@ import { TabsPage } from '../pages/tabs/tabs';
     HomePage,
     NotificationPage,
     FilterPage,
+    MapPage,
+    SearchPage,
     TabsPage,
     TimeAgoPipe
   ],
@@ -33,6 +37,8 @@ import { TabsPage } from '../pages/tabs/tabs';
     MyApp,
     HomePage,
     FilterPage,
+    MapPage,
+    SearchPage,
     TabsPage,
     NotificationPage
   ],
