@@ -1,7 +1,7 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import leaflet from 'leaflet';
-// import { Geolocation } from '@ionic-native/geolocation'
+import { Geolocation } from '@ionic-native/geolocation'
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Http } from '@angular/http'
 import 'rxjs/add/operator/map';
@@ -25,7 +25,7 @@ export class MapPage {
   
 
   constructor(public navCtrl: NavController, private formBuilder: FormBuilder,
-    private http: Http, private navParams: NavParams) {
+    private http: Http, private navParams: NavParams, private geolocation: Geolocation) {
       
     // this.stopQuery = this.formBuilder.group({
     //   stop: ['', Validators.required]
@@ -91,19 +91,30 @@ export class MapPage {
 
 
   loadmap() {
+    this.geolocation.getCurrentPosition().then((resp) => {
+      this.currentCenter = [resp.coords.latitude, resp.coords.longitude];
+      this.map.setView(this.currentCenter, 17);
+     }).catch((error) => {
+       this.currentCenter = [44.9375, -93.2010];
+     });
+
     this.map = leaflet.map("map").setView(this.currentCenter, 17);
 
     leaflet.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attributions: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
       maxZoom: 20
     }).addTo(this.map);
+<<<<<<< HEAD
+=======
+  }
+
+>>>>>>> a3c8b0ac3eab642d5e1506aa4b7e98be3d23ea4e
     // for (let i = 0; i < this.markerList.length; i++) {
     //   this.markerList[i].addTo(this.map);
     //   if (i == this.markerList.length - 1) {
     //     this.map.setView(this.markerList[i].getLatLng())
     //   }
     // }
-  }
 
     // loadPreviousMarkers() {
     //   for (let i = 0; i < this.markerList.length; i++) {

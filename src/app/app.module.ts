@@ -16,6 +16,7 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { BackgroundMode } from '@ionic-native/background-mode';
 import { SearchPage } from '../pages/search/search';
 import { MapPage } from '../pages/map/map';
+import { Geolocation } from '@ionic-native/geolocation';
 
 
 @NgModule({
@@ -48,6 +49,7 @@ import { MapPage } from '../pages/map/map';
     BackgroundMode,
     NotificationManager,
     LocalNotifications,
+    Geolocation,
     StatusBar,
     SplashScreen,
     MetroTransitAPI,
