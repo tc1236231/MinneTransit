@@ -24,15 +24,12 @@
       <ion-card *ngFor="let stop of stops.slice().reverse()">
         <ion-item>
           <ion-card-header>Stop #{{stop.sNum}}</ion-card-header>
-          <h5 style="padding-left: 4.2vw; margin-top: -1.5vh;">{{stop.name}}</h5>
+          <h5 style="padding-left: 4.2vw; margin-top: -1.3vh; position: absolute">{{stop.name}}</h5>
           <button ion-button clear icon-only item-end icon-start (click)="setFilter(stop)">
             <ion-icon name="funnel"></ion-icon>
           </button>
           <button ion-button clear icon-only item-end icon-start (click)="onClickSetNotification($event, stop)">
             <ion-icon [name]="this.getNotificationStatus(stop) ? 'notifications' : 'notifications-off'"></ion-icon>
-          </button>
-          <button ion-button clear icon-only item-end icon-start (click)="updateStop(stop)">
-            <ion-icon name="refresh"></ion-icon>
           </button>
           <button ion-button clear color="danger" icon-only item-end icon-start (click)="closeCard(stop)">
             <ion-icon name="close"></ion-icon>
