@@ -54,7 +54,7 @@ export class MetroTransitAPI {
     }
     */
 
-   getStopData(stopID: number) : Promise<StopData>
+   getStopDataByNum(stopID: number) : Promise<StopData>
    {
        let promise = new Promise<StopData>((resolve, reject) => {
             this.getStopsJSON().subscribe(data =>
@@ -68,6 +68,25 @@ export class MetroTransitAPI {
        });
        return promiseTimeout(10000,promise);
    }
+
+    getStopDatasByName(searchStopName: string) : Promise<StopData[]>
+    {
+        let promise = new Promise<StopData[]>((resolve, reject) => {
+            this.getStopsJSON().subscribe(data =>
+            {
+                let searchResults : StopData[] = [];
+                for (var stop of data) {
+                    let stop_name : string = stop["stop_name"];
+                    if(stop_name.toLowerCase().indexOf(searchStopName.toLowerCase()) > -1)
+                    {
+                        searchResults.push(stop);
+                    }
+                }
+                resolve(searchResults);
+            })
+       });
+       return promiseTimeout(10000,promise); 
+    }
 
     getStopsJSON()
     {
