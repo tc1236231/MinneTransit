@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, Tab, Events } from 'ionic-angular';
 import leaflet from 'leaflet';
 import { Geolocation } from '@ionic-native/geolocation'
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -25,7 +25,7 @@ export class MapPage {
   
 
   constructor(public navCtrl: NavController, private formBuilder: FormBuilder,
-    private http: Http, private navParams: NavParams, private geolocation: Geolocation) {
+    private http: Http, private navParams: NavParams, private geolocation: Geolocation, private events : Events) {
       
     // this.stopQuery = this.formBuilder.group({
     //   stop: ['', Validators.required]
@@ -165,9 +165,14 @@ export class MapPage {
   }
 
   addStopFromMarker(id: number, name: string) {
+    this.navCtrl.parent.select(0);
+    let prm = { stop_id: id, stop_name: name};
+    this.events.publish('onStopSelectedFromMap', prm);
+    /*
       this.navCtrl.push(HomePage, {
         stop_id: id,
         stop_name: name
       });
+      */
   }
 }
