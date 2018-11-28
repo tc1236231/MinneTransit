@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, Events } from 'ionic-angular';
 import { NotificationPage } from '../notification/notification';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MetroTransitAPI } from '../../providers/metro-transit-api';
@@ -20,7 +20,9 @@ export class HomePage {
   private subscriptionTimer; //temp to put it here for demo purpose
   private expandedRoutDirs : String[] = [];
 
-  constructor(public navCtrl: NavController, private navParam: NavParams, private formBuilder: FormBuilder, private metrotransitapi : MetroTransitAPI, public backgroundMode: BackgroundMode) {
+
+  constructor(public navCtrl: NavController, private navParam: NavParams, private formBuilder: FormBuilder, private metrotransitapi : MetroTransitAPI, public backgroundMode: BackgroundMode, private events : Events) {
+
     this.stopQuery = this.formBuilder.group({
       number: ['', Validators.required]
     });
@@ -47,7 +49,7 @@ export class HomePage {
     this.stopQuery.reset();
     let newStop : StopForm = new StopForm(stopNumber);
     newStop.update(this.metrotransitapi);
-    let dataPromise = this.metrotransitapi.getStopData(stopNumber);
+    let dataPromise = this.metrotransitapi.getStopDataByNum(stopNumber);
     newStop.name = "Loading...";
     dataPromise.then((res) => {
       newStop.name = res.stop_name;
@@ -59,17 +61,20 @@ export class HomePage {
   }
 
   ionViewDidEnter() {
-    this.receiveStopFromMap();
+    //this.receiveStopFromMap();
+    this.events.subscribe('onStopSelectedFromMap', (prm) => {
+      this.receiveStopFromMap(prm);
+    });
   }
 
-  receiveStopFromMap() {
-    var stopNumber = this.navParam.get("stop_id")
+  receiveStopFromMap(param) {
+    var stopNumber = param.stop_id;
     console.log(stopNumber)
     if (stopNumber !== undefined) {
       console.log("Receiving stop from map...");
       let newStop : StopForm = new StopForm(stopNumber);
       newStop.update(this.metrotransitapi);
-      let dataPromise = this.metrotransitapi.getStopData(stopNumber);
+      let dataPromise = this.metrotransitapi.getStopDataByNum(stopNumber);
       newStop.name = "Loading...";
       dataPromise.then((res) => {
         newStop.name = res.stop_name;
