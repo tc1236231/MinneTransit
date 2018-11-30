@@ -2,19 +2,19 @@ import { Component, ViewChild } from '@angular/core';
 import { NavController, NavParams, Searchbar, Navbar } from 'ionic-angular';
 import { FormBuilder, FormArray, FormGroup, Validators } from '@angular/forms';
 import { MetroTransitAPI } from '../../providers/metro-transit-api';
-//import { Http } from '@angular/http';
-//import { MapPage } from '../map/map';
+import { StopData } from '../../models/stop-data';
+
 @Component({
   selector: 'page-search',
   templateUrl: 'search.html',
 })
 export class SearchPage {
-  @ViewChild('searchBar') searchBar;
+  @ViewChild('searchBar') searchBar: Searchbar;
   @ViewChild(Navbar) navBar: Navbar;
-  searchResults = [];
+  searchResults: Map<string, StopData[]>;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private metrotransitapi : MetroTransitAPI) {
-
+    this.searchResults = new Map<string, StopData[]>();
   }
 
   ionViewDidLoad() {
@@ -42,20 +42,40 @@ export class SearchPage {
   }
   */
 
- getStopSearch(event) {
-  let searchedStopName : string = event.target.value;
-  this.searchResults = [];
-  this.metrotransitapi.getStopDatasByName(searchedStopName).then(values =>
-    {
-      for(let value of values)
+  getStopSearch(event) {
+    let searchedStopInput : string = event.target.value;
+    if(searchedStopInput.trim() == '')
+      return;
+    this.searchResults.clear();
+    this.metrotransitapi.searchStopDatas(searchedStopInput).then(values =>
       {
-        this.searchResults.push(value.stop_name);
-      }
-    });
- }
+        for(let value of values)
+        {
+          let stopNameKey : string = value.stop_name.toLowerCase().replace(/\s/g, "");
+          if(!this.searchResults.has(stopNameKey))
+          {
+            this.searchResults.set(stopNameKey, [value]);
+          }
+          else
+          {
+            this.searchResults.get(stopNameKey).push(value);
+          }
+        }
+      });
+  }
+
+  getMatchStops(){
+    let result = [];
+    for(let key of Array.from(this.searchResults.keys()))
+    {
+      result.push(this.searchResults.get(key)[0].stop_name);
+    }
+    return Array.from(result);
+  }
 
   getChosenStop(name) {
-      this.navCtrl.getPrevious().data.stopName = name;
-      this.navCtrl.pop();
+    let stopNameKey : string = name.toLowerCase().replace(/\s/g, "");
+    this.navCtrl.getPrevious().data.stopDatas = this.searchResults.get(stopNameKey);
+    this.navCtrl.pop();
   }
 }

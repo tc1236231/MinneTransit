@@ -44,6 +44,15 @@ export class HomePage {
   receiveStopNum() {
     let stopNumber = parseInt(this.stopQuery.get("number").value);
     this.stopQuery.reset();
+    this.addStopCard(stopNumber);
+  }
+
+  addStopCard(stopNumber: number)
+  {
+    if(this.isStopDuplicate(stopNumber))
+    {
+      return;
+    }
     let newStop : StopForm = new StopForm(stopNumber);
     newStop.update(this.metrotransitapi);
     let dataPromise = this.metrotransitapi.getStopDataByNum(stopNumber);
@@ -66,20 +75,8 @@ export class HomePage {
 
   receiveStopFromMap(param) {
     var stopNumber = param.stop_id;
-    console.log(stopNumber)
     if (stopNumber !== undefined) {
-      console.log("Receiving stop from map...");
-      let newStop : StopForm = new StopForm(stopNumber);
-      newStop.update(this.metrotransitapi);
-      let dataPromise = this.metrotransitapi.getStopDataByNum(stopNumber);
-      newStop.name = "Loading...";
-      dataPromise.then((res) => {
-        newStop.name = res.stop_name;
-        console.log(res);
-      }).catch((err) => {
-      newStop.name = 'Invalid Stop';
-      });
-      this.stops.push(newStop);
+      this.addStopCard(stopNumber);
     }
   }
 
@@ -87,9 +84,13 @@ export class HomePage {
   {
     let index = this.expandedRoutDirs.indexOf(routeDir.toString());
     if(index != -1)
+    {
       this.expandedRoutDirs.splice( index, 1 );
+    }
     else
+    {
       this.expandedRoutDirs.push(routeDir.toString());
+    }
   }
 
   checkExpandStatus(routeDir : RouteDir) : boolean
@@ -109,6 +110,16 @@ export class HomePage {
   closeCard(stop : StopForm) {
     stop.onClose();
     this.stops.splice(this.stops.indexOf(stop),1);
+  }
+
+  isStopDuplicate(stopNumber: number) : boolean
+  {
+    for(let stop of this.stops)
+    {
+      if(stop.sNum == stopNumber)
+        return true;
+    }
+    return false;
   }
 
   onClickSetNotification(event : Event, stop : StopForm) {
