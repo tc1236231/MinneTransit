@@ -5,8 +5,8 @@ import { Geolocation } from '@ionic-native/geolocation'
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Http } from '@angular/http'
 import 'rxjs/add/operator/map';
-import { HomePage } from '../home/home';
 import { SearchPage } from '../search/search';
+import { StopData } from '../../models/stop-data';
 
 @Component({
   selector: 'page-map',
@@ -37,7 +37,7 @@ export class MapPage {
     console.log("marker list ");
     console.log(this.markerList);
 
-    this.loadStopData("../../assets/data/stopData.json")
+    //this.loadStopData("../../assets/data/stopData.json")
   }
 
   loadStopData(link) {
@@ -57,11 +57,18 @@ export class MapPage {
   }
 
   ionViewDidEnter() {
-    console.log("will enter");
     // this.loadmap();
-    console.log(this.navParams.get("stopName"));
-    if (this.navParams.get("stopName") !== undefined) {
-      this.addStopMarker(this.stopData.get(this.navParams.get("stopName")));
+    let feedbackData = this.navParams.get("stopDatas");
+    if (feedbackData !== undefined && Array.isArray(feedbackData)) {
+      this.displayQueriedStops(feedbackData);
+    }
+  }
+
+  displayQueriedStops(dataArray: StopData[])
+  {
+    for(let data of dataArray)
+    {
+      this.addStopMarker(data);
     }
   }
 

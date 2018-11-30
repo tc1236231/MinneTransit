@@ -5,7 +5,6 @@ import { Observable } from 'rxjs/Rx';
 import { NexTripDeparture } from '../models/next-trip-departure';
 //import * as firebase from 'firebase';
 import { StopData } from '../models/stop-data';
-import { List } from 'ionic-angular';
 
 const promiseTimeout = function(ms, promise){
     // Create a promise that rejects in <ms> milliseconds
@@ -81,6 +80,34 @@ export class MetroTransitAPI {
                     {
                         searchResults.push(stop);
                     }
+                }
+                resolve(searchResults);
+            })
+       });
+       return promiseTimeout(10000,promise); 
+    }
+
+    searchStopDatas(searchStopInput: string) : Promise<StopData[]>
+    {
+        if(searchStopInput.trim() == '')
+            return new Promise<StopData[]>((resolve, reject) => {resolve([])});
+        let searchInputs : Array<string> = searchStopInput.split(' ');
+        let promise = new Promise<StopData[]>((resolve, reject) => {
+            this.getStopsJSON().subscribe(data =>
+            {
+                let searchResults : StopData[] = [];
+                for (var stop of data) {
+                    let stop_name : string = stop["stop_name"];
+                    let found : boolean = true;
+                    for(let searchName of searchInputs)
+                    {
+                        if(stop_name.toLowerCase().indexOf(searchName.toLowerCase()) == -1)
+                        {
+                            found = false;
+                        }
+                    }
+                    if(found)
+                        searchResults.push(stop);
                 }
                 resolve(searchResults);
             })
