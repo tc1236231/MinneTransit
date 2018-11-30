@@ -16,6 +16,7 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { SearchPage } from '../pages/search/search';
 import { MapPage } from '../pages/map/map';
 import { Geolocation } from '@ionic-native/geolocation';
+import { BackgroundMode } from '@ionic-native/background-mode';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { Geolocation } from '@ionic-native/geolocation';
   ],
   providers: [
     NotificationManager,
+    BackgroundMode,
     LocalNotifications,
     Geolocation,
     StatusBar,
