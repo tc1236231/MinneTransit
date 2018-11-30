@@ -14,12 +14,13 @@ export class NotificationManager
     private static idCounter: number = 1;
 
     static checkForNotification(): boolean{
-        if (this.singleNotifications.length == 0){
-            return false
+        for(let singleNoti of this.singleNotifications) {
+            if(!singleNoti.isFired)
+            {
+                return true;
+            }
         }
-        else{
-            return true
-        }
+        return false;
     }
 
     
