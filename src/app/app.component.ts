@@ -1,3 +1,4 @@
+import { BackgroundMode } from '@ionic-native/background-mode';
 import { Component } from '@angular/core';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Observable } from 'rxjs/Rx';
@@ -17,6 +18,7 @@ const config = {
   messagingSenderId: "21386401211"
 };
 */
+
 @Component({
   template: '<ion-nav [root]="rootPage"></ion-nav>',
   templateUrl: 'app.html'
@@ -25,13 +27,27 @@ export class MyApp {
   rootPage:any = TabsPage;
   private notificationTimer;
 
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
+  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, public backgroundMode: BackgroundMode) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       statusBar.styleLightContent(); //statusBar.styleDefault();
       splashScreen.hide();
+      //backgroundMode.enable();
+      /*if (NotificationManager.checkForNotification() == true){
+        backgroundMode.enable();
+      }
+      else {
+        backgroundMode.disable();
+      }*/
+
       this.notificationTimer = Observable.interval(1000 * 5).subscribe(x => {
+        if (NotificationManager.checkForNotification() == true && backgroundMode.isEnabled() == false){
+          backgroundMode.enable();
+        }
+        else if (backgroundMode.isEnabled() == true){
+          backgroundMode.disable();
+        }
         NotificationManager.checkForSingleNotification();
       });
     });

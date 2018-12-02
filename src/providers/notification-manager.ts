@@ -12,6 +12,17 @@ export class NotificationManager
     private static singleNotifications : SingleNotification[] = [];
     private static localnotification : LocalNotifications = new LocalNotifications();
     private static idCounter: number = 1;
+
+    static checkForNotification(): boolean{
+        for(let singleNoti of this.singleNotifications) {
+            if(!singleNoti.isFired)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     
     static checkForPermission() {
         if(!this.localnotification.hasPermission())
