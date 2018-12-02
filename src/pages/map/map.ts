@@ -1,6 +1,6 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { NavController, NavParams, Tab, Events } from 'ionic-angular';
-import leaflet from 'leaflet';
+import leaflet, { LatLngExpression } from 'leaflet';
 import { Geolocation } from '@ionic-native/geolocation'
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Http } from '@angular/http'
@@ -20,7 +20,7 @@ export class MapPage {
   queriedStop: string;
   searchResults: string[]
   map;
-  currentCenter = [44.9375, -93.2010];
+  currentCenter : LatLngExpression = [44.9375, -93.2010];
   markerList = [];
   
 
@@ -108,7 +108,7 @@ export class MapPage {
     this.map = leaflet.map("map").setView(this.currentCenter, 17);
 
     leaflet.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attributions: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+      attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
       maxZoom: 20
     }).addTo(this.map);
   }
