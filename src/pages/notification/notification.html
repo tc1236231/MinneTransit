@@ -1,7 +1,7 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      XXX Notification Settings
+    Notifications
     </ion-title>
   </ion-navbar>
 </ion-header>
@@ -9,7 +9,7 @@
   <ion-list>
     <ion-list-header>Stop Number: {{currentStop.sNum}} </ion-list-header>
     <!--<ion-list-header>Route and Direction: {{currentRouteDir}} </ion-list-header>-->
-    <ion-list-header>Route and Direction: All tracked routes directions</ion-list-header>
+    <ion-list-header>Route and Direction: All tracked routes</ion-list-header>
     <ion-item>
       <ion-label>Time Interval</ion-label>
       <!--<ion-select [(ngModel)]="timeInterval" interface="popover">
@@ -32,6 +32,12 @@
       </button>
       <button *ngIf="notiOn" ion-button color="danger" item-end icon-start (click)="turnOffNotification()">
         Turn Off
+      </button>
+    </div>
+    </ion-item>
+    <div text-right>
+      <button icon-only item-end icon-start (click)="closeCard(stop)">
+          <ion-icon name="help"></ion-icon>
       </button>
     </div>
   </ion-list>
