@@ -20,11 +20,11 @@ export class MapPage {
   stopData: Map<string, object>;
   queriedStop: string;
   searchResults: string[]
-  map;
+  map : leaflet.Map;
   currentCenter : LatLngExpression = [44.9375, -93.2010];
   markerList = [];
+  defaultZoom = 17;
   
-
   constructor(public navCtrl: NavController, private formBuilder: FormBuilder,
     private http: Http, private navParams: NavParams, private geolocation: Geolocation, private events : Events) {
       
@@ -37,7 +37,6 @@ export class MapPage {
     this.searchResults = [];
     console.log("marker list ");
     console.log(this.markerList);
-
     //this.loadStopData("../../assets/data/stopData.json")
   }
 
@@ -59,6 +58,7 @@ export class MapPage {
 
   ionViewDidEnter() {
     // this.loadmap();
+    this.map.invalidateSize();
     let feedbackData = this.navParams.get("stopDatas");
     if (feedbackData !== undefined && Array.isArray(feedbackData)) {
       this.displayQueriedStops(feedbackData);
@@ -106,10 +106,10 @@ export class MapPage {
        this.currentCenter = [44.9375, -93.2010];
      });
 
-    this.map = leaflet.map("map").setView(this.currentCenter, 17);
+    this.map = leaflet.map("map").setView(this.currentCenter, this.defaultZoom);
 
     leaflet.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+      attribution: '&copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, Imagery © <a href="http://mapbox.com">Mapbox</a>',
       maxZoom: 20
     }).addTo(this.map);
 
@@ -143,7 +143,7 @@ export class MapPage {
       m.openPopup();
       // this.markerList.push(currentStop);
 
-      this.map.setView([currentStop["stop_lat"], currentStop["stop_lon"]]);
+      this.map.setView([currentStop["stop_lat"], currentStop["stop_lon"]],this.defaultZoom);
   }
 
   addStopFromMarker(id: number, name: string) {

@@ -17,8 +17,10 @@ export class SearchPage {
     this.searchResults = new Map<string, StopData[]>();
   }
 
-  ionViewDidLoad() {
-    this.searchBar.setFocus();
+  ionViewDidEnter() {
+    setTimeout(() => {
+      this.searchBar.setFocus();
+    }, 150);
   }
 
   /*
