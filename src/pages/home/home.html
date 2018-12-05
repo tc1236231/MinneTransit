@@ -15,7 +15,7 @@
     <ion-item>
       <ion-label floating>Stop Number</ion-label>
       <ion-input type="tel" formControlName="number" ></ion-input>
-      <button ion-button clear icon-only item-end icon-start [disabled]="!stopQuery.valid" large>
+      <button ion-button clear icon-only item-end  large>
         <ion-icon name="checkmark"></ion-icon>
       </button>
     </ion-item>
@@ -25,6 +25,9 @@
         <ion-item>
           <ion-card-header>Stop #{{stop.sNum}}</ion-card-header>
           <h5 style="padding-left: 4.2vw; margin-top: -1.3vh; position: absolute">{{stop.name}}</h5>
+          <button ion-button icon-only clear item-end icon-start (click)="presentAlert2()">
+              <ion-icon name="help-circle"></ion-icon>
+            </button>
           <button ion-button clear icon-only item-end icon-start (click)="setFilter(stop)">
             <ion-icon name="funnel"></ion-icon>
           </button>
@@ -65,4 +68,9 @@
           </ion-card>
         </ion-card-content>
       </ion-card>
+      <ion-fab bottom right>
+          <button ion-fab icon-only (click)="presentAlert1()">
+            <ion-icon name="help"></ion-icon>
+          </button>
+        </ion-fab>
 </ion-content>

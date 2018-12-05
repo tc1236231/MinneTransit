@@ -15,8 +15,10 @@ import { MyApp } from './app.component';
 import { TabsPage } from '../pages/tabs/tabs';
 import { SearchPage } from '../pages/search/search';
 import { MapPage } from '../pages/map/map';
+import { FavoritePage } from '../pages/favorite/favorite';
 import { Geolocation } from '@ionic-native/geolocation';
 import { BackgroundMode } from '@ionic-native/background-mode';
+import { IonicStorageModule } from '@ionic/storage';
 
 @NgModule({
   declarations: [
@@ -26,13 +28,15 @@ import { BackgroundMode } from '@ionic-native/background-mode';
     FilterPage,
     MapPage,
     SearchPage,
+    FavoritePage,
     TabsPage,
     TimeAgoPipe
   ],
   imports: [
     BrowserModule,
     HttpModule,
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -40,6 +44,7 @@ import { BackgroundMode } from '@ionic-native/background-mode';
     HomePage,
     FilterPage,
     MapPage,
+    FavoritePage,
     SearchPage,
     TabsPage,
     NotificationPage

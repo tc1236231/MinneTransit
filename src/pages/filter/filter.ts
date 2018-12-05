@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { RouteDir } from '../../models/route-dir';
 import { StopForm } from '../../models/stop-form';
+import { AlertController } from 'ionic-angular';
+
  @Component({
     selector: 'page-filter',
     templateUrl: 'filter.html'
@@ -9,11 +11,10 @@ import { StopForm } from '../../models/stop-form';
 export class FilterPage {
     stop: StopForm; // The stop whose filter setting is to be changed
     selectAll : boolean;
-    unTrackedRouteDirs: RouteDir[]; // The list of route-directions to be tracked
-    allRouteDirs: RouteDir[]; // The list of route-directions serving this stop
-    selected: boolean[];
-
-    constructor(public navCtrl: NavController, private navParams: NavParams) {
+    unTrackedRouteDirs: RouteDir[] // The list of route-directions to be tracked
+    allRouteDirs: RouteDir[] // The list of route-directions serving this stop
+    selected: boolean[] 
+     constructor(public navCtrl: NavController, private navParams: NavParams, private alertCtrl: AlertController) {
         this.stop = this.navParams.get("stop");
         //this.stop.refreshRDList();
         this.unTrackedRouteDirs = this.stop.unTrackedRouteDirs;
@@ -33,6 +34,15 @@ export class FilterPage {
         }
         this.updateSelectAll();
         //console.log(this.selected);
+    }
+
+    presentAlert3() {
+        let alert = this.alertCtrl.create({
+            title: 'Help',
+            subTitle: 'Select which routes you wish to be tracked for this specific stop. If you create a notification, it will only send for these selected routes',
+            buttons: ['OK']
+        });
+        alert.present();
     }
 
      /**

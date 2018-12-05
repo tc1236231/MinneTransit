@@ -4,6 +4,7 @@ import { StopForm } from '../../models/stop-form';
 import { RouteDir } from '../../models/route-dir';
 import { NotificationManager } from '../../providers/notification-manager';
 import { SingleNotification } from '../../models/notification-model';
+import { AlertController } from 'ionic-angular';
 
 @Component({
   selector: 'page-notification',
@@ -19,7 +20,7 @@ export class NotificationPage {
   currentSingleNotification: SingleNotification;
   timeIntervalDateStr: string;
 
-  constructor(public navCtrl: NavController, private navParams: NavParams) {
+  constructor(public navCtrl: NavController, private navParams: NavParams, private alertCtrl: AlertController) {
     this.currentStop = this.navParams.get("stop");
     //this.currentRouteDir = this.navParams.get("routeDir");
     this.notiOn = this.currentStop.notiSet;
@@ -30,6 +31,15 @@ export class NotificationPage {
     tempDate.setMinutes(parseInt(timeInterval));
     this.timeIntervalDateStr = tempDate.toISOString();
     this.onText = this.notiOn ? "Save" : "Turn On";
+  }
+
+  presentAlert() {
+    let alert = this.alertCtrl.create({
+      title: 'Help',
+      subTitle: 'This page allows you to schedule a notification which will be sent when the next currenlty tracked bus is "time interval" away',
+      buttons: ['OK']
+    });
+    alert.present();
   }
 
   setNotification() {

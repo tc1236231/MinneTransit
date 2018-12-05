@@ -1,6 +1,7 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { NavController, NavParams, Tab, Events } from 'ionic-angular';
 import leaflet, { LatLngExpression } from 'leaflet';
+import 'leaflet-easybutton';
 import { Geolocation } from '@ionic-native/geolocation'
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Http } from '@angular/http'
@@ -111,43 +112,17 @@ export class MapPage {
       attribution: '&copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, Imagery © <a href="http://mapbox.com">Mapbox</a>',
       maxZoom: 20
     }).addTo(this.map);
+
+    leaflet.easyButton("icon ion-trash-a", function(btn, map) {
+      map.eachLayer(function(layer) {
+        map.removeLayer(layer);
+      })
+      leaflet.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+      maxZoom: 20
+    }).addTo(map);
+    }).addTo(this.map);
   }
-
-    // for (let i = 0; i < this.markerList.length; i++) {
-    //   this.markerList[i].addTo(this.map);
-    //   if (i == this.markerList.length - 1) {
-    //     this.map.setView(this.markerList[i].getLatLng())
-    //   }
-    // }
-
-    // loadPreviousMarkers() {
-    //   for (let i = 0; i < this.markerList.length; i++) {
-    //     var m = leaflet.marker([this.markerList[i]["stop_lat"], this.markerList[i]["stop_lon"]],
-    //   {icon: leaflet.icon({
-    //           iconUrl: 'https://esri.github.io/esri-leaflet/img/bus-stop-south.png',
-    //           iconRetinaUrl: 'https://esri.github.io/esri-leaflet/img/bus-stop-south@2x.png',
-    //           iconSize: [27, 31],
-    //           iconAnchor: [13.5, 13.5],
-    //           popupAnchor: [0, -11]
-    //         })}).
-    //         on("click", () => {
-    //           this.addStopFromMarker(this.markerList[i]["stop_id"], this.markerList[i]["stop_name"]);
-    //         }).
-    //         bindPopup(this.markerList[i]["stop_name"]).openPopup();
-    //   m.addTo(this.map);
-
-    //   if (i == this.markerList.length - 1) {
-    //     this.map.setView([this.markerList[i]["stop_lat"], this.markerList[i]["stop_lon"]]);
-    //   }
-    //   }
-    // }
-
-    // this.map.locate({
-    //   setView: true,
-    //   maxZoom: 16
-    // }).on('locationfound', (e) => {
-    //   console.log('found you');
-    //   })
 
   addStopMarker(currentStop) {
       console.log("Current stop " + currentStop);
@@ -166,7 +141,7 @@ export class MapPage {
             bindPopup(currentStop["stop_name"]);
       m.addTo(this.map);
       m.openPopup();
-      this.markerList.push(currentStop);
+      // this.markerList.push(currentStop);
 
       this.map.setView([currentStop["stop_lat"], currentStop["stop_lon"]],this.defaultZoom);
   }

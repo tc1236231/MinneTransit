@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, Events } from 'ionic-angular';
+import { NavController, NavParams, Events, AlertController } from 'ionic-angular';
 import { NotificationPage } from '../notification/notification';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MetroTransitAPI } from '../../providers/metro-transit-api';
@@ -8,6 +8,7 @@ import { Observable } from 'rxjs/Rx';
 import { RouteDir } from '../../models/route-dir';
 import { NotificationManager } from '../../providers/notification-manager';
 import { FilterPage } from '../filter/filter';
+
 
 @Component({
   selector: 'page-home',
@@ -19,10 +20,28 @@ export class HomePage {
   private subscriptionTimer; //temp to put it here for demo purpose
   private expandedRoutDirs : String[] = [];
 
-  constructor(public navCtrl: NavController, private navParam: NavParams, private formBuilder: FormBuilder, private metrotransitapi : MetroTransitAPI, private events : Events) {
+  constructor(public navCtrl: NavController, private navParam: NavParams, private formBuilder: FormBuilder, private metrotransitapi : MetroTransitAPI, private events : Events, private alertCtrl: AlertController) {
     this.stopQuery = this.formBuilder.group({
       number: ['', Validators.required]
     });
+  }
+
+  presentAlert1() {
+    let alert = this.alertCtrl.create({
+      title: 'Help',
+      subTitle: 'Enter in a stop number or use the map tab to search for a specific stop',
+      buttons: ['OK']
+    });
+    alert.present();
+  }
+
+  presentAlert2() {
+    let alert = this.alertCtrl.create({
+      title: 'Help',
+      subTitle: 'This data automatically refreshed every 30 seconds. If you click on an individual route, the schedule for the route will display. To filter for specific routes, set a notification, or remove this stop, click on the icons',
+      buttons: ['OK']
+    });
+    alert.present();
   }
 
   refreshAllStops()
