@@ -47,6 +47,7 @@ import { StopData } from '../../models/stop-data';
             for (let data of dataArray) {
                 console.log(savedStops);
                 if (savedStops.indexOf(data) == -1) {
+                    console.log("Adding stop to bookmark");
                     console.log(data);
                     savedStops.push(data);
                 }
