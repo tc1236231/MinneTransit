@@ -38,7 +38,7 @@ export class HomePage {
   presentAlert2() {
     let alert = this.alertCtrl.create({
       title: 'Help',
-      subTitle: 'This data automatically refreshed every 30 seconds. If you click on an individual route, the schedule for the route will display. To filter for specific routes, set a notification, or remove this stop, click on the icons',
+      subTitle: 'This data automatically refreshes every 30 seconds. If you click on an individual route, the schedule for the route will display. To filter for specific routes, set a notification, or remove this stop, click on the icons',
       buttons: ['OK']
     });
     alert.present();

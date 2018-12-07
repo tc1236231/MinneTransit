@@ -39,7 +39,7 @@ export class FilterPage {
     presentAlert3() {
         let alert = this.alertCtrl.create({
             title: 'Help',
-            subTitle: 'Select which routes you wish to be tracked for this specific stop. If you create a notification, it will only send for these selected routes',
+            subTitle: 'Select which routes you wish to track for this specific stop. If you create a notification, it will only send for these selected routes',
             buttons: ['OK']
         });
         alert.present();

@@ -36,7 +36,7 @@ export class NotificationPage {
   presentAlert() {
     let alert = this.alertCtrl.create({
       title: 'Help',
-      subTitle: 'This page allows you to schedule a notification which will be sent when the next currenlty tracked bus is "time interval" away',
+      subTitle: 'Set the time interval to create a notification which will send when the next tracked bus is that number of minutes away from this stop',
       buttons: ['OK']
     });
     alert.present();
