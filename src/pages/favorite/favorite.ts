@@ -21,15 +21,17 @@ import { StopData } from '../../models/stop-data';
 
         let feedbackData = this.navParams.get("stopDatas");
         if (feedbackData !== undefined && Array.isArray(feedbackData)) {
-
+            this.bookmarkStop(feedbackData);
         }
     }
 
     loadBookmarkedStops() {
         this.storage.ready().then(() => {
+            console.log("ready?");
             this.storage.get('Saved stops').then((savedStops) => {
-                if (savedStops !== undefined && savedStops !== []) {
-                    console.log("Storage initialized");
+                if (savedStops !== null && savedStops !== []) {
+                    console.log("Bookmarked stops");
+                    console.log(savedStops);
                     this.favorites = savedStops;
                     console.log(this.favorites);
                 } else {
@@ -40,14 +42,21 @@ import { StopData } from '../../models/stop-data';
     }
 
     bookmarkStop(dataArray: StopData[]) {
-        this.storage.get('Saved stops').then((savedStops) => {
+        this.storage.ready().then(() => {
+            this.storage.get('Saved stops').then((savedStops) => {
             for (let data of dataArray) {
-                savedStops.push(data);
+                console.log(savedStops);
+                if (savedStops.indexOf(data) == -1) {
+                    console.log(data);
+                    savedStops.push(data);
+                }
             };
             this.storage.set('Saved stops', savedStops);
             this.loadBookmarkedStops();
         })
-    }
+    })
+}
+
 
     removeBookmarkedStop(stop: StopData) {
         this.storage.get('Saved stops').then((savedStops) => {
@@ -65,5 +74,9 @@ import { StopData } from '../../models/stop-data';
 
     openSearchPage() {
         this.navCtrl.push(SearchPage);
+    }
+
+    clear() {
+        this.storage.set('Saved stops', []);
     }
 }
