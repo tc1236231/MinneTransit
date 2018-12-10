@@ -52,6 +52,7 @@ export class NotificationManager
                     id: singleNoti.id,
                     title: `${singleNoti.title}`,
                     text: `${singleNoti.content}`,
+                    foreground: true
                 }]);
                 singleNoti.isFired = true;
             }
