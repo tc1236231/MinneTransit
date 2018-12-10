@@ -29,7 +29,7 @@ export class HomePage {
   presentAlert1() {
     let alert = this.alertCtrl.create({
       title: 'Help',
-      subTitle: 'Enter in a stop number or use the map tab to search for a specific stop',
+      subTitle: 'Please enter in a stop number or use the map tab to search for a specific stop',
       buttons: ['OK']
     });
     alert.present();
@@ -63,6 +63,11 @@ export class HomePage {
   receiveStopNum() {
     let stopNumber = parseInt(this.stopQuery.get("number").value);
     this.stopQuery.reset();
+    if(Number.isNaN(stopNumber))
+    {
+      this.presentAlert1();
+      return;
+    }
     this.addStopCard(stopNumber);
   }
 

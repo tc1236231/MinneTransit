@@ -1,13 +1,13 @@
 <ion-header>
     <ion-navbar>
         <ion-title>
-            Route selection
+            Route Selection
         </ion-title>
     </ion-navbar>
 </ion-header>
 <ion-content>
-    <h3>Stop #{{stop.sNum}}</h3>
-    <h4>Select the routes to be tracked:</h4>
+    <h3 style="padding-left: 6vw;">Stop #{{stop.sNum}}</h3>
+    <h6 style="padding-left: 6vw;">Select the routes that you want to track:</h6>
     <ion-item>
         <ion-checkbox [(ngModel)]="this.selectAll" (click)="updateTracksAllRDs($event)"></ion-checkbox>
         <ion-label>{{'Select All'}}</ion-label>

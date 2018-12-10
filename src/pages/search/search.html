@@ -5,7 +5,7 @@
 </ion-header>
        
 <ion-content>
-    <ion-searchbar #searchBar debounce=750 (ionInput)="getStopSearch($event)"></ion-searchbar>
+    <ion-searchbar #searchBar debounce=750 (ionInput)="getStopSearch($event)" placeholder="Search for stops (e.g. snelling grand)"></ion-searchbar>
     <ion-list>
         <button ion-item detail-none *ngFor="let result of this.getMatchStops()" (click)="getChosenStop(result)">
             {{ result }}

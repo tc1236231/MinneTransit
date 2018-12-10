@@ -109,16 +109,16 @@ export class MapPage {
     this.map = leaflet.map("map").setView(this.currentCenter, this.defaultZoom);
 
     leaflet.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+      attribution: '',
       maxZoom: 20
     }).addTo(this.map);
 
-    leaflet.easyButton("icon ion-trash-a", function(btn, map) {
+    leaflet.easyButton("<i class='fa fa-trash' style='font-size: 22px; padding-top: 3px;'></i>", function(btn, map) {
       map.eachLayer(function(layer) {
         map.removeLayer(layer);
       })
       leaflet.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+      attribution: '',
       maxZoom: 20
     }).addTo(map);
     }).addTo(this.map);

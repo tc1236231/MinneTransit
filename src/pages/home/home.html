@@ -5,7 +5,7 @@
     </ion-title>
     <ion-buttons end> 
     <button ion-button (click)="presentAlert1()">
-      <ion-icon name="help-circle"></ion-icon>
+      <ion-icon name="help-circle" style="font-size: 3vh;"></ion-icon>
     </button>
   </ion-buttons>
   </ion-navbar>
@@ -41,7 +41,9 @@
           </button>
         </ion-item>
         <ion-card-content>
-          Updated {{stop.updateTime | timeAgo}}
+          <div *ngIf="stop.updateTime != undefined">Updated {{stop.updateTime | timeAgo}}</div>
+          <div *ngIf="stop.updateTime == undefined">Loading...</div>
+          <div *ngIf="stop.updateTime != undefined && stop.getTrackedRouteDirs().length == 0">No schedule found</div>
           <ion-card *ngFor="let routeDir of stop.getTrackedRouteDirs()" (click)="toggleExpandRouteInfo($event, routeDir)">
             <ion-item>
               <div style="margin-top:-20px; margin-bottom: -20px;">
@@ -58,12 +60,17 @@
             </ion-item>
             <table style="width:80%; margin-left: auto; margin-right: auto; margin-top: 5px; margin-bottom: 10px;" *ngIf="this.checkExpandStatus(routeDir) === true">
               <tr>
+                <th></th>
                 <th>Route</th>
                 <th>Departs</th>
               </tr>
               <tr *ngFor="let departure of stop.routeDirSchedules.get(routeDir)">
                 <!--<td>{{departure.Route}}{{departure.Terminal}}</td>-->
-                <td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: cetner;">{{departure.Description}}</td> 
+                <td>
+                  <ion-icon *ngIf="departure.Actual" name="bus"></ion-icon>
+                  <ion-icon *ngIf="!departure.Actual" name="calendar"></ion-icon>
+                </td>
+                <td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: center;">{{departure.Description}}</td> 
                 <td style="text-align: center;">{{departure.DepartureText}} </td>
               </tr>
             </table>
