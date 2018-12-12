@@ -30,6 +30,9 @@
           <button ion-button icon-only clear item-end icon-start (click)="presentAlert2()">
               <ion-icon name="help-circle"></ion-icon>
             </button>
+            <button ion-button clear icon-only item-end icon-start (click)="bookmark(stop)">
+              <ion-icon name="bookmark"></ion-icon>
+            </button>
           <button ion-button clear icon-only item-end icon-start (click)="setFilter(stop)">
             <ion-icon name="funnel"></ion-icon>
           </button>
@@ -37,7 +40,7 @@
             <ion-icon [name]="this.getNotificationStatus(stop) ? 'notifications' : 'notifications-off'"></ion-icon>
           </button>
           <button ion-button clear color="danger" icon-only item-end icon-start (click)="closeCard(stop)">
-            <ion-icon name="close"></ion-icon>
+            <ion-icon name="trash"></ion-icon>
           </button>
         </ion-item>
         <ion-card-content>
