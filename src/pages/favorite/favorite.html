@@ -15,10 +15,10 @@
       <ion-list>
           <ion-item *ngFor="let stop of favorites">
               <button ion-item detail-none (click)="getChosenStop(stop)">
-                  {{ stop.stop_name }}
+                  {{ stop.name }}
               </button>
               <button ion-button clear icon-only item-end icon-start (click)="removeBookmarkedStop(stop)">
-                  <ion-icon name="ios-trash"></ion-icon>
+                  <ion-icon name="trash" color="danger"></ion-icon>
               </button>
           </ion-item>
       </ion-list>

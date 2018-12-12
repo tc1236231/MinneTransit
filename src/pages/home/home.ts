@@ -8,6 +8,7 @@ import { Observable } from 'rxjs/Rx';
 import { RouteDir } from '../../models/route-dir';
 import { NotificationManager } from '../../providers/notification-manager';
 import { FilterPage } from '../filter/filter';
+import { FavoritePage } from '../favorite/favorite';
 
 
 @Component({
@@ -125,6 +126,14 @@ export class HomePage {
   getNotificationStatus(stop: StopForm) : boolean
   {
     return NotificationManager.getSingleNotificationStatusForStop(stop) != undefined;
+  }
+
+  bookmark(stop: StopForm) {
+    // this.navCtrl.push(FavoritePage, {id: stop.sNum, name: stop.name});
+
+    this.navCtrl.parent.select(2);
+    let prm = {stop_id: stop.sNum, stop_name: stop.name};
+    this.events.publish("onStopSelectedForBookmark", prm);
   }
 
   setFilter(stop: StopForm) {
