@@ -53,14 +53,13 @@ export class MapPage {
  
   ionViewDidLoad() {
     this.loadmap();
-    console.log("loading map");
   }
 
   ionViewDidEnter() {
-    // this.loadmap();
     this.map.invalidateSize();
     let feedbackData = this.navParams.get("stopDatas");
     if (feedbackData !== undefined && Array.isArray(feedbackData)) {
+      this.navParams.data.stopDatas = undefined;
       this.displayQueriedStops(feedbackData);
     }
   }
@@ -72,16 +71,6 @@ export class MapPage {
       this.addStopMarker(data);
     }
   }
-
-  // ionViewWillEnter() {
-  //   this.getQueriedStop();
-  // }
-  // ionViewCanLeave(){
-  //   document.getElementById("map").outerHTML = "";
-  //   // if(this.map) {
-  //   //   this.map.remove();
-  //   // }
-  // }
 
   openSearchPage() {
     this.navCtrl.push(SearchPage);
@@ -113,7 +102,7 @@ export class MapPage {
       maxZoom: 20
     }).addTo(this.map);
 
-    leaflet.easyButton("<i class='fa fa-trash' style='font-size: 22px; padding-top: 3px;'></i>", function(btn, map) {
+    leaflet.easyButton("<i class='fa fa-trash' style='font-size: 22px; text-align: center; left: -4px; position: absolute; top: 0.5vh;'></i>", function(btn, map) {
       map.eachLayer(function(layer) {
         map.removeLayer(layer);
       })
