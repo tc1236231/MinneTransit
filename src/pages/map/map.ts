@@ -136,8 +136,10 @@ export class MapPage {
             })}).
             on("click", () => {
               this.addStopFromMarker(currentStop["stop_id"], currentStop["stop_name"]);
-            }).
-            bindPopup(currentStop["stop_name"]);
+            });
+            // bindPopup(currentStop["stop_name"]);
+      let p = new leaflet.Popup({ autoClose: false, closeOnClick: false }).setContent("#" + currentStop["stop_id"] + " " + currentStop["stop_name"]);
+      m.bindPopup(p);
       m.addTo(this.map);
       m.openPopup();
       // this.markerList.push(currentStop);
