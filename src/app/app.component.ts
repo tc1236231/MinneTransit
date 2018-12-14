@@ -31,7 +31,13 @@ export class MyApp {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
-      statusBar.styleLightContent(); //statusBar.styleDefault();
+      if (platform.is('ios')) {
+        statusBar.styleDefault();
+      }
+      else
+      {
+        statusBar.styleLightContent();
+      }
       splashScreen.hide();
       //backgroundMode.enable();
       /*if (NotificationManager.checkForNotification() == true){
