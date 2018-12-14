@@ -13,13 +13,14 @@
           </ion-label>
       </ion-item>
       <ion-list>
-          <ion-item *ngFor="let stop of favorites">
-              <button ion-item detail-none (click)="getChosenStop(stop)">
+              <button *ngFor="let stop of favorites" ion-item detail-none (click)="getChosenStop(stop)">
                   {{ stop.name }}
+                  <button ion-button clear color="dark" item-start small>
+                      {{ stop.id }}
+                  </button>
+                  <button ion-button clear icon-only item-end icon-start (click)="removeBookmarkedStop(stop)">
+                    <ion-icon name="trash" color="danger"></ion-icon>
+                </button>
               </button>
-              <button ion-button clear icon-only item-end icon-start (click)="removeBookmarkedStop(stop)">
-                  <ion-icon name="trash" color="danger"></ion-icon>
-              </button>
-          </ion-item>
       </ion-list>
   </ion-content>
