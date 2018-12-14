@@ -46,6 +46,16 @@ export class HomePage {
     alert.present();
   }
 
+  presentLoadingAlert()
+  {
+    let alert = this.alertCtrl.create({
+      title: 'Wait!',
+      subTitle: 'The information has not been fully loaded yet, please check your Internet access and try again later',
+      buttons: ['OK']
+    });
+    alert.present();
+  }
+
   refreshAllStops()
   {
     for(let stop of this.stops) {
@@ -136,6 +146,11 @@ export class HomePage {
   }
 
   setFilter(stop: StopForm) {
+    if(stop.updateTime == undefined)
+    {
+      this.presentLoadingAlert();
+      return;
+    }
     this.navCtrl.push(FilterPage, { stop: stop });
   }
 
@@ -178,6 +193,11 @@ export class HomePage {
 
   onClickSetNotification(event : Event, stop : StopForm) {
     event.stopPropagation();
+    if(stop.updateTime == undefined)
+    {
+      this.presentLoadingAlert();
+      return;
+    }
     this.navCtrl.push(NotificationPage, {
       stop: stop
     });
