@@ -28,7 +28,7 @@ export class HomePage {
     });
   }
 
-  presentAlert1() {
+  presentHomeAlert1() {
     let alert = this.alertCtrl.create({
       title: 'Help',
       subTitle: 'Please enter in a stop number or use the map tab to search for a specific stop',
@@ -37,7 +37,7 @@ export class HomePage {
     alert.present();
   }
 
-  presentAlert2() {
+  presentHomeAlert2() {
     let alert = this.alertCtrl.create({
       title: 'Help',
       subTitle: 'This data automatically refreshes every 30 seconds. If you click on an individual route, the schedule for the route will display. To filter for specific routes, set a notification, or remove this stop, click on the icons',
@@ -77,7 +77,7 @@ export class HomePage {
     this.stopQuery.reset();
     if(Number.isNaN(stopNumber))
     {
-      this.presentAlert1();
+      this.presentHomeAlert1();
       return;
     }
     this.addStopCard(stopNumber);

@@ -36,7 +36,7 @@ export class FilterPage {
         //console.log(this.selected);
     }
 
-    presentAlert3() {
+    presentFilterAlert() {
         let alert = this.alertCtrl.create({
             title: 'Help',
             subTitle: 'Select which routes you wish to track for this specific stop. If you create a notification, it will only send for these selected routes',

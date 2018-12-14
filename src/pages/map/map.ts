@@ -41,7 +41,7 @@ export class MapPage {
     //this.loadStopData("../../assets/data/stopData.json")
   }
 
-  presentAlert5() {
+  presentMapAlert() {
     let alert = this.alertCtrl.create({
       title: 'Help',
       subTitle: 'Use the search button to search for a specific stop by name',

@@ -33,7 +33,7 @@ export class NotificationPage {
     this.onText = this.notiOn ? "Save" : "Turn On";
   }
 
-  presentAlert() {
+  presentNotificationAlert() {
     let alert = this.alertCtrl.create({
       title: 'Help',
       subTitle: 'Set the time interval to create a notification which will send when the next tracked bus is that number of minutes away from this stop',
