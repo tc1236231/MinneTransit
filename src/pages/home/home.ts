@@ -67,7 +67,7 @@ export class HomePage {
     this.stopQuery.reset();
     if(Number.isNaN(stopNumber))
     {
-      this.presentAlert1();
+      this.presentHomeAlert1();
       return;
     }
     this.addStopCard(stopNumber);
