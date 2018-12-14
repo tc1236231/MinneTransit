@@ -39,7 +39,7 @@
           <button ion-button clear icon-only item-end icon-start (click)="onClickSetNotification($event, stop)">
             <ion-icon [name]="this.getNotificationStatus(stop) ? 'notifications' : 'notifications-off'"></ion-icon>
           </button>
-          <button ion-button clear color="danger" icon-only item-end icon-start (click)="closeCard(stop)">
+          <button ion-button clear color="danger" icon-only item-end icon-start (click)="presentCloseConfirm(stop)">
             <ion-icon name="trash"></ion-icon>
           </button>
         </ion-item>

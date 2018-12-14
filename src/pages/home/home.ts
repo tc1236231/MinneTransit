@@ -20,6 +20,7 @@ export class HomePage {
   private stops : StopForm[] = [];
   private subscriptionTimer; //temp to put it here for demo purpose
   private expandedRoutDirs : String[] = [];
+  private bookMarkEventShouldFire : boolean = true;
 
   constructor(public navCtrl: NavController, private navParam: NavParams, private formBuilder: FormBuilder, private metrotransitapi : MetroTransitAPI, private events : Events, private alertCtrl: AlertController) {
     this.stopQuery = this.formBuilder.group({
@@ -130,10 +131,16 @@ export class HomePage {
 
   bookmark(stop: StopForm) {
     // this.navCtrl.push(FavoritePage, {id: stop.sNum, name: stop.name});
-
+    if(!this.bookMarkEventShouldFire)
+      return;
+    
     this.navCtrl.parent.select(2);
     let prm = {stop_id: stop.sNum, stop_name: stop.name};
     this.events.publish("onStopSelectedForBookmark", prm);
+    this.bookMarkEventShouldFire = false;
+    setTimeout( () => {
+      this.bookMarkEventShouldFire = true;
+    }, 500);  
   }
 
   setFilter(stop: StopForm) {
@@ -143,6 +150,28 @@ export class HomePage {
   closeCard(stop : StopForm) {
     stop.onClose();
     this.stops.splice(this.stops.indexOf(stop),1);
+  }
+
+  presentCloseConfirm(stop : StopForm) {
+    let alert = this.alertCtrl.create({
+      title: 'Closing',
+      message: 'You will NOT receive any notification for this bus stop. Are you sure?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+          }
+        },
+        {
+          text: 'Yes',
+          handler: () => {
+            this.closeCard(stop);
+          }
+        }
+      ]
+    });
+    alert.present();
   }
 
   isStopDuplicate(stopNumber: number) : boolean
