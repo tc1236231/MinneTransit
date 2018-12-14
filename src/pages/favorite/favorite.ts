@@ -29,12 +29,15 @@ import { StopData } from '../../models/stop-data';
             // }
         }
 
-        // this.events.subscribe('onStopSelectedForBookmark', (prm) => {
-        //     if (prm.stop_id !== undefined && prm.stop_name !== undefined) {
-        //         console.log("onStopSelectedForBookmark");
-        //         this.bookmarkStop(prm.stop_id, prm.stop_name)
-        //     }
-        //   });
+        this.events.subscribe('onStopSelectedForBookmark', (prm) => {
+            if (prm.stop_id !== undefined && prm.stop_name !== undefined) {
+                console.log("onStopSelectedForBookmark");
+                let stop = new StopData();
+                stop.stop_id = prm.stop_id;
+                stop.stop_name = prm.stop_name;
+                this.bookmarkStop([stop]);
+            }
+          });
     }
 
     loadBookmarkedStops() {
