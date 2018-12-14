@@ -3,24 +3,23 @@ import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Rx';
 import { NexTripDeparture } from '../models/next-trip-departure';
-//import * as firebase from 'firebase';
 import { StopData } from '../models/stop-data';
 
 const promiseTimeout = function(ms, promise){
     // Create a promise that rejects in <ms> milliseconds
     let timeout = new Promise((resolve, reject) => {
-      let id = setTimeout(() => {
+        let id = setTimeout(() => {
         clearTimeout(id);
         reject('Timed out in '+ ms + 'ms.')
-      }, ms)
+        }, ms)
     })
-  
+
     // Returns a race between our timeout and the passed in promise
     return Promise.race([
-      promise,
-      timeout
+        promise,
+        timeout
     ])
-  }
+}
 
 @Injectable()
 export class MetroTransitAPI {
@@ -37,21 +36,6 @@ export class MetroTransitAPI {
         let departuresObs = this.http.get(`${this.MetroTransitAPI_URL}${stopID}?format=json`).map(res => <NexTripDeparture[]>res.json());
         return departuresObs;
     }
-    
-    /*
-    Dropping usage of firebase DB switching to local JSON
-    getStopData(stopID: number) : Promise<StopData>
-    {
-        let databaseRef = firebase.database().ref('/stops');
-        let promise = new Promise<StopData>((resolve) => {
-            databaseRef.orderByChild('stop_id').equalTo(stopID).once("child_added", function(snapshot) {
-                let sData = <StopData>snapshot.toJSON();
-                resolve(sData);
-            });
-        });
-        return promiseTimeout(10000,promise);
-    }
-    */
 
    getStopDataByNum(stopID: number) : Promise<StopData>
    {
