@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, Events } from 'ionic-angular';
+import { NavController, NavParams, Events, AlertController} from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { SearchPage } from '../search/search';
 import { StopData } from '../../models/stop-data';
@@ -13,9 +13,18 @@ import { StopData } from '../../models/stop-data';
     favorites = [];
     favoritesID: number[] = [];
 
-    constructor(public navCtrl: NavController, private navParams: NavParams, private storage: Storage, private events: Events) {
+    constructor(public navCtrl: NavController, private navParams: NavParams, private storage: Storage, private events: Events, private alertCtrl: AlertController) {
 
     }
+
+    presentAlert6() {
+        let alert = this.alertCtrl.create({
+          title: 'Help',
+          subTitle: 'Use the search bar to find and save a favorite stop. Click on the stop to add it to the home screen.',
+          buttons: ['OK']
+        });
+        alert.present();
+      }
 
     ionViewDidEnter() {
         this.loadBookmarkedStops();
