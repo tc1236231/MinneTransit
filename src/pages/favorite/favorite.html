@@ -15,6 +15,7 @@
       <ion-list>
               <button *ngFor="let stop of favorites" ion-item detail-none (click)="getChosenStop(stop)">
                   {{ stop.name }}
+                  <div class="stop_description">{{ stop.desc }}</div>
                   <button ion-button clear color="dark" item-start small>
                       {{ stop.id }}
                   </button>

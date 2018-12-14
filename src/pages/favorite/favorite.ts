@@ -3,6 +3,7 @@ import { NavController, NavParams, Events } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { SearchPage } from '../search/search';
 import { StopData } from '../../models/stop-data';
+import { MetroTransitAPI } from '../../providers/metro-transit-api';
 
 @Component({
     selector: 'page-favorite',
@@ -13,7 +14,7 @@ import { StopData } from '../../models/stop-data';
     favorites = [];
     favoritesID: number[] = [];
 
-    constructor(public navCtrl: NavController, private navParams: NavParams, private storage: Storage, private events: Events) {
+    constructor(public navCtrl: NavController, private navParams: NavParams, private storage: Storage, private events: Events, private metrotransitapi : MetroTransitAPI) {
 
     }
 
@@ -31,11 +32,11 @@ import { StopData } from '../../models/stop-data';
 
         this.events.subscribe('onStopSelectedForBookmark', (prm) => {
             if (prm.stop_id !== undefined && prm.stop_name !== undefined) {
-                console.log("onStopSelectedForBookmark");
-                let stop = new StopData();
-                stop.stop_id = prm.stop_id;
-                stop.stop_name = prm.stop_name;
-                this.bookmarkStop([stop]);
+                this.metrotransitapi.getStopDataByNum(prm.stop_id).then((res) => {
+                    this.bookmarkStop([res]);
+                }).catch((err) => {
+                    console.log(err);
+                });
             }
           });
     }
@@ -68,7 +69,7 @@ import { StopData } from '../../models/stop-data';
                 if (this.favoritesID.indexOf(data.stop_id) == -1) {
                     console.log("Adding stop to bookmark");
                     console.log(data);
-                    savedStops.push({"id": data.stop_id, "name": data.stop_name});
+                    savedStops.push({"id": data.stop_id, "name": data.stop_name, "desc": data.stop_desc});
                 }
             };
             this.storage.set('Saved stops', savedStops);
