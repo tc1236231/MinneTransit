@@ -8,7 +8,7 @@ import { Observable } from 'rxjs/Rx';
 import { RouteDir } from '../../models/route-dir';
 import { NotificationManager } from '../../providers/notification-manager';
 import { FilterPage } from '../filter/filter';
-import { FavoritePage } from '../favorite/favorite';
+
 
 
 @Component({
@@ -55,11 +55,6 @@ export class HomePage {
 
   updateStop(stop : StopForm) {
     stop.update(this.metrotransitapi);
-    /* Disabled due to new notification system
-    if(stop.notiSet) {
-      NotificationManager.checkForNotification(stop);
-    }
-    */
   }
 
   receiveStopNum() {
@@ -85,7 +80,6 @@ export class HomePage {
     newStop.name = "Loading...";
     dataPromise.then((res) => {
       newStop.name = res.stop_name;
-      console.log(res);
     }).catch((err) => {
       newStop.name = 'Invalid Stop';
     });
@@ -93,7 +87,6 @@ export class HomePage {
   }
 
   ionViewDidEnter() {
-    //this.receiveStopFromMap();
     this.events.subscribe('onStopSelectedFromMap', (prm) => {
       this.receiveStopFromMap(prm);
     });
@@ -130,7 +123,6 @@ export class HomePage {
   }
 
   bookmark(stop: StopForm) {
-    // this.navCtrl.push(FavoritePage, {id: stop.sNum, name: stop.name});
     if(!this.bookMarkEventShouldFire)
       return;
     
