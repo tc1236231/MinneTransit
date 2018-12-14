@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Rx';
 import { NexTripDeparture } from '../models/next-trip-departure';
 import { StopData } from '../models/stop-data';
 
+//Credit promiseTimeout to https://italonascimento.github.io/applying-a-timeout-to-your-promises/
 const promiseTimeout = function(ms, promise){
     // Create a promise that rejects in <ms> milliseconds
     let timeout = new Promise((resolve, reject) => {
