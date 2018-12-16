@@ -3,22 +3,37 @@ MinneTransit is an IOS/Android application that helps the user in their Twin Cit
 This App was built using the ionic programming language and is compatible with any IOS or Android device.
 # Installation and Development Information
 ## Prerequisites
+NodeJS (Use Mac): brew install npm
+
+Ionic Cordova: npm install -g ionic cordova
+
 ## Installing
 Clone the Repo and navigate to the newly created folder
-git clone https://www.github.com/sahmed1997/Kiumi????
+git clone https://github.com/tc1236231/MinneTransit.git
+cd MinneTransit
+
 To install all the dependencies for the project run:
+
 npm install
-...
+
+# Deploying
+
+Install xcode: Run through simulator
+
 # Built with:
 Ionic
+
 Visual Studio Code
 
+MetroTransit API: https://gisdata.mn.gov/dataset/us-mn-state-metc-trans-transit-schedule-google-fd
+
 # Authors
-[Tom Ehrsam](https://github.com/tehrsam): tehrsam@macalester.edu
+[Tom Ehrsam] (https://github.com/tehrsam): tehrsam@macalester.edu
 
-[Thy Nguyen](https://github.com/thytng): tnguye10@macalester.edu
+[Thy Nguyen] (https://github.com/thytng): tnguye10@macalester.edu
 
-[Richard Tian](https://github.com/tc1236231): ctian@macalester.edu
+[Richard Tian] (https://github.com/tc1236231): ctian@macalester.edu
 
 # Acknowledgements
 Many thanks to [Brett Jackson](https://github.com/bretjackson) for his mentorship and support throughout this project.
+
