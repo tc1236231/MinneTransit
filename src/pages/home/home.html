@@ -4,7 +4,7 @@
       MinneTransit
     </ion-title>
     <ion-buttons end> 
-    <button ion-button (click)="presentAlert1()">
+    <button ion-button (click)="presentHomeAlert1()">
       <ion-icon name="help-circle" style="font-size: 3vh;"></ion-icon>
     </button>
   </ion-buttons>
@@ -27,7 +27,7 @@
         <ion-item>
           <ion-card-header>Stop #{{stop.sNum}}</ion-card-header>
           <h5 style="padding-left: 4.2vw; margin-top: -1.3vh; position: absolute">{{stop.name}}</h5>
-          <button ion-button icon-only clear item-end icon-start (click)="presentAlert2()">
+          <button ion-button icon-only clear item-end icon-start (click)="presentHomeAlert2()">
               <ion-icon name="help-circle"></ion-icon>
             </button>
             <button ion-button clear icon-only item-end icon-start (click)="bookmark(stop)">
@@ -55,11 +55,6 @@
               </div>
               <div style="float: right;position: relative; top: -0.7vh;" [innerHtml]="stop.routeDirSchedules.get(routeDir)[0].DepartureText">   
               </div>
-              <!--
-              <button ion-button clear icon-only item-end icon-start (click)="toggleExpandRouteInfo(routeDir)">
-                <ion-icon [name]="this.checkExpandStatus(routeDir) === false ? 'add-circle' : 'remove-circle'"></ion-icon>
-              </button>
-              -->
             </ion-item>
             <table style="width:80%; margin-left: auto; margin-right: auto; margin-top: 5px; margin-bottom: 10px;" *ngIf="this.checkExpandStatus(routeDir) === true">
               <tr>
@@ -68,7 +63,6 @@
                 <th>Departs</th>
               </tr>
               <tr *ngFor="let departure of stop.routeDirSchedules.get(routeDir)">
-                <!--<td>{{departure.Route}}{{departure.Terminal}}</td>-->
                 <td>
                   <ion-icon *ngIf="departure.Actual" name="bus"></ion-icon>
                   <ion-icon *ngIf="!departure.Actual" name="calendar"></ion-icon>

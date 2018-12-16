@@ -16,7 +16,6 @@ export class FilterPage {
     selected: boolean[] 
      constructor(public navCtrl: NavController, private navParams: NavParams, private alertCtrl: AlertController) {
         this.stop = this.navParams.get("stop");
-        //this.stop.refreshRDList();
         this.unTrackedRouteDirs = this.stop.unTrackedRouteDirs;
         this.allRouteDirs = this.stop.allRouteDirs;
         this.selected = [];
@@ -33,10 +32,9 @@ export class FilterPage {
             }
         }
         this.updateSelectAll();
-        //console.log(this.selected);
     }
 
-    presentAlert3() {
+    presentFilterAlert() {
         let alert = this.alertCtrl.create({
             title: 'Help',
             subTitle: 'Select which routes you wish to track for this specific stop. If you create a notification, it will only send for these selected routes',
@@ -86,9 +84,7 @@ export class FilterPage {
             if(!this.selected[i])
                 this.unTrackedRouteDirs.push(this.allRouteDirs[i]);
         }
-        //console.log(this.unTrackedRouteDirs);
         this.stop.unTrackedRouteDirs = this.unTrackedRouteDirs;
-        //this.stop.refilter();
         this.navCtrl.pop();
     }
 } 

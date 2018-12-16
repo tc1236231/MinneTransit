@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { LocalNotifications } from "@ionic-native/local-notifications";
 import { StopForm } from '../models/stop-form';
-import { RouteDir } from '../models/route-dir';
 import { SingleNotification } from '../models/notification-model';
 
 @Component({
@@ -90,12 +89,10 @@ export class NotificationManager
     static getSingleNotificationStatusForStop(stop : StopForm) : SingleNotification
     {
         var minutesInterval = -1;
-        //var isNotificationSet : boolean = false;
         var retSingleNoti = null;
         for(let singleNoti of this.singleNotifications) {
             if(singleNoti.stop.sNum == stop.sNum && !singleNoti.isFired)
             {
-                //isNotificationSet = true;
                 minutesInterval = singleNoti.minutesInterval;
                 retSingleNoti = singleNoti;
                 break;
@@ -103,17 +100,4 @@ export class NotificationManager
         }
         return retSingleNoti;
     }
-/*
-    static checkForNotification(stop : StopForm)
-    {
-        if(new Date() >= stop.nextNotiTime) {
-            let minsUntilDep : number = Math.ceil((stop.nextNotiDep.DepartureTime.valueOf() - new Date().valueOf()) / 60000);
-            this.localnotification.schedule([{
-                title: `Trip approaching stop #${stop.sNum}`,
-                text: `${stop.nextNotiDep.Route}${stop.nextNotiDep.Terminal} ${stop.nextNotiDep.Description} is departing in ${minsUntilDep} minute(s)`
-             }]);
-             stop.notiSet = false;
-        }
-    }
-*/
 }

@@ -4,7 +4,7 @@
     Notifications
     </ion-title>
     <ion-buttons end> 
-        <button ion-button (click)="presentAlert()">
+        <button ion-button (click)="presentNotificationAlert()">
           <ion-icon name="help-circle" style="font-size: 3vh;"></ion-icon>
         </button>
       </ion-buttons>
@@ -13,24 +13,11 @@
 <ion-content>
   <ion-list>
     <ion-list-header>Stop Number: {{currentStop.sNum}} </ion-list-header>
-    <!--<ion-list-header>Route and Direction: {{currentRouteDir}} </ion-list-header>-->
     <ion-list-header>Route and Direction: All tracked routes</ion-list-header>
     <ion-item>
     </ion-item>
     <ion-item>
       <ion-label>Time Interval</ion-label>
-      <!--<ion-select [(ngModel)]="timeInterval" interface="popover">
-        <ion-option value=1>1 minute</ion-option>
-        <ion-option value=2>2 minutes</ion-option>
-        <ion-option value=5>5 minutes</ion-option>
-        <ion-option value=10 selected="true">10 minutes</ion-option>
-        <ion-option value=15>15 minutes</ion-option>
-        <ion-option value=20>20 minutes</ion-option>
-        <ion-option value=30>30 minutes</ion-option>
-        <ion-option value=40>40 minutes</ion-option>
-        <ion-option value=50>50 minutes</ion-option>
-      </ion-select>
-      -->
       <ion-datetime displayFormat="m minute" pickerFormat="m" [(ngModel)]="timeIntervalDateStr"></ion-datetime>
     </ion-item>
     <div text-right>
@@ -41,11 +28,6 @@
         Turn Off
       </button>
     </div>
-    <!--<ion-fab bottom right>
-        <button ion-fab icon-only (click)="presentAlert()">
-          <ion-icon name="help"></ion-icon>
-        </button>
-      </ion-fab>-->
     
   </ion-list>
 </ion-content>

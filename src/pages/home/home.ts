@@ -8,7 +8,7 @@ import { Observable } from 'rxjs/Rx';
 import { RouteDir } from '../../models/route-dir';
 import { NotificationManager } from '../../providers/notification-manager';
 import { FilterPage } from '../filter/filter';
-import { FavoritePage } from '../favorite/favorite';
+
 
 
 @Component({
@@ -28,7 +28,7 @@ export class HomePage {
     });
   }
 
-  presentAlert1() {
+  presentHomeAlert1() {
     let alert = this.alertCtrl.create({
       title: 'Help',
       subTitle: 'Please enter in a stop number or use the map tab to search for a specific stop',
@@ -37,10 +37,20 @@ export class HomePage {
     alert.present();
   }
 
-  presentAlert2() {
+  presentHomeAlert2() {
     let alert = this.alertCtrl.create({
       title: 'Help',
       subTitle: 'This data automatically refreshes every 30 seconds. If you click on an individual route, the schedule for the route will display. To filter for specific routes, set a notification, or remove this stop, click on the icons',
+      buttons: ['OK']
+    });
+    alert.present();
+  }
+
+  presentLoadingAlert()
+  {
+    let alert = this.alertCtrl.create({
+      title: 'Wait!',
+      subTitle: 'The information has not been fully loaded yet, please check your Internet access and try again later',
       buttons: ['OK']
     });
     alert.present();
@@ -55,11 +65,6 @@ export class HomePage {
 
   updateStop(stop : StopForm) {
     stop.update(this.metrotransitapi);
-    /* Disabled due to new notification system
-    if(stop.notiSet) {
-      NotificationManager.checkForNotification(stop);
-    }
-    */
   }
 
   receiveStopNum() {
@@ -67,7 +72,7 @@ export class HomePage {
     this.stopQuery.reset();
     if(Number.isNaN(stopNumber))
     {
-      this.presentAlert1();
+      this.presentHomeAlert1();
       return;
     }
     this.addStopCard(stopNumber);
@@ -85,7 +90,6 @@ export class HomePage {
     newStop.name = "Loading...";
     dataPromise.then((res) => {
       newStop.name = res.stop_name;
-      console.log(res);
     }).catch((err) => {
       newStop.name = 'Invalid Stop';
     });
@@ -93,7 +97,6 @@ export class HomePage {
   }
 
   ionViewDidEnter() {
-    //this.receiveStopFromMap();
     this.events.subscribe('onStopSelectedFromMap', (prm) => {
       this.receiveStopFromMap(prm);
     });
@@ -130,7 +133,6 @@ export class HomePage {
   }
 
   bookmark(stop: StopForm) {
-    // this.navCtrl.push(FavoritePage, {id: stop.sNum, name: stop.name});
     if(!this.bookMarkEventShouldFire)
       return;
     
@@ -144,6 +146,11 @@ export class HomePage {
   }
 
   setFilter(stop: StopForm) {
+    if(stop.updateTime == undefined)
+    {
+      this.presentLoadingAlert();
+      return;
+    }
     this.navCtrl.push(FilterPage, { stop: stop });
   }
 
@@ -186,6 +193,11 @@ export class HomePage {
 
   onClickSetNotification(event : Event, stop : StopForm) {
     event.stopPropagation();
+    if(stop.updateTime == undefined)
+    {
+      this.presentLoadingAlert();
+      return;
+    }
     this.navCtrl.push(NotificationPage, {
       stop: stop
     });

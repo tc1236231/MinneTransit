@@ -1,6 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
 import { NavController, NavParams, Searchbar, Navbar } from 'ionic-angular';
-import { FormBuilder, FormArray, FormGroup, Validators } from '@angular/forms';
 import { MetroTransitAPI } from '../../providers/metro-transit-api';
 import { StopData } from '../../models/stop-data';
 
@@ -22,27 +21,6 @@ export class SearchPage {
       this.searchBar.setFocus();
     }, 150);
   }
-
-  /*
-  loadStopData(link) {
-    this.http.get(link).map(res => res.json()).subscribe(data => {
-      for (var stop of data) {
-        this.stopNames.push(stop["stop_name"]);
-      }
-    })
-  }
-
-  getStopSearch(e) {
-    var searchedStop = e.target.value;
-    if (searchedStop && searchedStop.trim() != "") {
-        this.searchResults = this.stopNames.filter((item) => {
-            return (item.toLowerCase().indexOf(searchedStop.toLowerCase()) > -1);
-          })
-    } else {
-        this.searchResults = [];
-    }
-  }
-  */
 
   getStopSearch(event) {
     let searchedStopInput : string = event.target.value;

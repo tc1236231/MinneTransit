@@ -18,7 +18,7 @@ import { MetroTransitAPI } from '../../providers/metro-transit-api';
 
     }
 
-    presentAlert6() {
+    presentFavoriteAlert() {
         let alert = this.alertCtrl.create({
           title: 'Help',
           subTitle: 'Use the search bar to find and save a favorite stop. Click on the stop to add it to the home screen.',

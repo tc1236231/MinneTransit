@@ -29,36 +29,19 @@ export class MapPage {
   constructor(public navCtrl: NavController, private formBuilder: FormBuilder,
     private http: Http, private navParams: NavParams, private geolocation: Geolocation, private events : Events, private alertCtrl: AlertController) {
       
-    // this.stopQuery = this.formBuilder.group({
-    //   stop: ['', Validators.required]
-    // });
     this.markerList = [];
     this.stopData = new Map<string, object>();
     this.stopNames = [];
     this.searchResults = [];
-    console.log("marker list ");
-    console.log(this.markerList);
-    //this.loadStopData("../../assets/data/stopData.json")
   }
 
-  presentAlert5() {
+  presentMapAlert() {
     let alert = this.alertCtrl.create({
       title: 'Help',
       subTitle: 'Use the search button to search for a specific stop by name',
       buttons: ['OK']
     });
     alert.present();
-  }
-
-  loadStopData(link) {
-    console.log("Loading stop data");
-    this.http.get(link).map(res => res.json()).subscribe(data => {
-      for (var stop of data) {
-        this.stopData.set(stop["stop_name"], stop);
-        this.stopNames.push(stop["stop_name"]);
-      }
-    })
-    // console.log(this.stopNames)
   }
  
   ionViewDidLoad() {
@@ -88,8 +71,6 @@ export class MapPage {
 
   getQueriedStop() {
     if (typeof(this.navParams.get("stopName")) != undefined) {
-      console.log(true)
-      console.log("prev " + this.navParams.get("stopName"));
       return this.navParams.get("stopName");
     } else {
       return this.stopQuery.get("stop").value;
@@ -124,8 +105,6 @@ export class MapPage {
   }
 
   addStopMarker(currentStop) {
-      console.log("Current stop " + currentStop);
-      
       var m = leaflet.marker([currentStop["stop_lat"], currentStop["stop_lon"]],
       {icon: leaflet.icon({
               iconUrl: 'https://esri.github.io/esri-leaflet/img/bus-stop-south.png',
@@ -137,12 +116,10 @@ export class MapPage {
             on("click", () => {
               this.addStopFromMarker(currentStop["stop_id"], currentStop["stop_name"]);
             });
-            // bindPopup(currentStop["stop_name"]);
       let p = new leaflet.Popup({ autoClose: false, closeOnClick: false }).setContent("#" + currentStop["stop_id"] + " " + currentStop["stop_name"]);
       m.bindPopup(p);
       m.addTo(this.map);
       m.openPopup();
-      // this.markerList.push(currentStop);
 
       this.map.setView([currentStop["stop_lat"], currentStop["stop_lon"]],this.defaultZoom);
   }
@@ -151,11 +128,5 @@ export class MapPage {
     this.navCtrl.parent.select(0);
     let prm = { stop_id: id, stop_name: name};
     this.events.publish('onStopSelectedFromMap', prm);
-    /*
-      this.navCtrl.push(HomePage, {
-        stop_id: id,
-        stop_name: name
-      });
-      */
   }
 }
