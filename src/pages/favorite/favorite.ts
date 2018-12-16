@@ -42,12 +42,15 @@ import { MetroTransitAPI } from '../../providers/metro-transit-api';
         this.events.subscribe('onStopSelectedForBookmark', (prm) => {
             if (prm.stop_id !== undefined && prm.stop_name !== undefined) {
                 this.metrotransitapi.getStopDataByNum(prm.stop_id).then((res) => {
-                    this.bookmarkStop([res]);
+                    if (this.favoritesID.indexOf(prm.stop_id) == -1) {
+                        this.bookmarkStop([res]);
+                    }
                 }).catch((err) => {
                     console.log(err);
                 });
             }
           });
+          this.navParams.data.stopDatas = undefined;
     }
 
     loadBookmarkedStops() {
@@ -56,7 +59,6 @@ import { MetroTransitAPI } from '../../providers/metro-transit-api';
             this.storage.get('Saved stops').then((savedStops) => {
                 if (savedStops !== null && savedStops != []) {
                     console.log("Bookmarked stops");
-                    console.log(savedStops);
                     this.favorites = savedStops;
                     for (let stop of this.favorites) {
                         this.favoritesID.push(stop.id);
@@ -74,10 +76,7 @@ import { MetroTransitAPI } from '../../providers/metro-transit-api';
         this.storage.ready().then(() => {
             this.storage.get('Saved stops').then((savedStops) => {
             for (let data of dataArray) {
-                console.log(savedStops);
                 if (this.favoritesID.indexOf(data.stop_id) == -1) {
-                    console.log("Adding stop to bookmark");
-                    console.log(data);
                     savedStops.push({"id": data.stop_id, "name": data.stop_name, "desc": data.stop_desc});
                 }
             };
@@ -87,30 +86,10 @@ import { MetroTransitAPI } from '../../providers/metro-transit-api';
     })
 }
 
-
-//     bookmarkStop(id: number, name: string) {
-//         console.log("bookmarking stop");
-//         if (this.favoritesID.indexOf(id) === -1) {
-//             this.storage.get('Saved stops').then((savedStops) => {
-//                 savedStops.push({"id": id, "name": name});
-//                 this.storage.set('Saved stops', savedStops);
-//                 this.loadBookmarkedStops();
-//             })
-//         }
-
-//     //     this.storage.ready().then(() => {
-//     //         this.storage.get('Saved stops').then((savedStops) => {
-//     //             if (this.favoritesID.indexOf(id) == -1) {
-//     //                 savedStops.push({"id": id, "name": name})
-//     //             }
-//     //             this.storage.set('Saved stops', savedStops);
-//     //             this.loadBookmarkedStops();
-//     //     })
-//     // })
-// }
     removeBookmarkedStop(stop) {
         this.storage.get('Saved stops').then((savedStops) => {
-            savedStops.splice(savedStops.indexOf(stop), 1);
+            let stopID = this.favorites.indexOf(stop);
+            savedStops.splice(stopID, 1);
             this.storage.set('Saved stops', savedStops);
             this.loadBookmarkedStops();
         })

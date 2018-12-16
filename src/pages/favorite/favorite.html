@@ -1,32 +1,26 @@
 <ion-header>
-    <ion-navbar>
-      <ion-title>
-        Favorite Stops
-      </ion-title>
-      <ion-buttons end> 
-            <button ion-button (click)="presentAlert6()">
-              <ion-icon name="help-circle" style="font-size: 3vh;"></ion-icon>
-            </button>
-          </ion-buttons>
-    </ion-navbar>
-  </ion-header>
-
-  <ion-content>
-      <ion-item>
-          <ion-label (click)="openSearchPage()" color="grey">
-              Search for a stop
-          </ion-label>
-      </ion-item>
-      <ion-list>
-              <button *ngFor="let stop of favorites" ion-item detail-none (click)="getChosenStop(stop)">
-                  {{ stop.name }}
-                  <div class="stop_description">{{ stop.desc }}</div>
-                  <button ion-button clear color="dark" item-start small>
-                      {{ stop.id }}
+        <ion-navbar>
+          <ion-title>
+            Favorite Stops
+          </ion-title>
+        </ion-navbar>
+      </ion-header>
+    
+      <ion-content>
+          <ion-item>
+              <ion-label (click)="openSearchPage()" color="grey">
+                  Search for a stop
+              </ion-label>
+          </ion-item>
+          <ion-list>
+              <ion-item *ngFor="let stop of favorites" no-padding class="list_item">
+                  <button ion-item detail-none (click)="getChosenStop(stop)">
+                      {{ stop.name }}
+                      <div class="stop_description">{{ stop.desc }}</div>
                   </button>
-                  <button ion-button clear icon-only item-end icon-start (click)="removeBookmarkedStop(stop)">
-                    <ion-icon name="trash" color="danger"></ion-icon>
-                </button>
-              </button>
-      </ion-list>
-  </ion-content>
+                  <button ion-button clear icon-only item-end (click)="removeBookmarkedStop(stop)">
+                      <ion-icon name="trash" color="danger"></ion-icon>
+                  </button>
+              </ion-item>
+          </ion-list>
+      </ion-content>
