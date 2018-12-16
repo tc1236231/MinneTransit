@@ -14,24 +14,26 @@ export class FilterPage {
     unTrackedRouteDirs: RouteDir[] // The list of route-directions to be tracked
     allRouteDirs: RouteDir[] // The list of route-directions serving this stop
     selected: boolean[] 
-     constructor(public navCtrl: NavController, private navParams: NavParams, private alertCtrl: AlertController) {
+     
+    constructor(public navCtrl: NavController, private navParams: NavParams, private alertCtrl: AlertController) {
         this.stop = this.navParams.get("stop");
         this.unTrackedRouteDirs = this.stop.unTrackedRouteDirs;
         this.allRouteDirs = this.stop.allRouteDirs;
         this.selected = [];
+        
         for(let i = 0; i < this.allRouteDirs.length; i++)
-        {
-            this.selected[i] = true;
-        }
-        for(let routeDir of this.unTrackedRouteDirs)
-        {
-            let index = routeDir.indexInArray(this.allRouteDirs);
-            if(index != -1)
             {
-                this.selected[index] = false;
+                this.selected[i] = true;
             }
-        }
-        this.updateSelectAll();
+        for(let routeDir of this.unTrackedRouteDirs)
+            {
+                let index = routeDir.indexInArray(this.allRouteDirs);
+                if(index != -1)
+                    {
+                        this.selected[index] = false;
+                    }       
+            }
+        this.updateSelectAll(); //Changes the select all button to match the response
     }
 
     presentFilterAlert() {

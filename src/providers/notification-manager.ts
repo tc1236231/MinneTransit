@@ -28,6 +28,7 @@ export class NotificationManager
             this.localnotification.requestPermission();
     }
 
+//Sends the notification once the boolean tells that it should be sent
     static createSingleNotification(title: String, content: String, fireTime: Date, stop : StopForm, minutesInterval : number)
     {
         this.checkForPermission();
@@ -37,6 +38,7 @@ export class NotificationManager
         this.idCounter++;
     }
 
+//Loops through the array of notifications to test if any should be fired
     static checkForSingleNotification()
     {
         let currentDate = new Date();
