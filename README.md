@@ -44,6 +44,9 @@ To build:
 ```
 ionic cordova build ios -- --buildFlag="-UseModernBuildSystem=0"
 ```
+
+When building the app in XCode, go to the xcode_proj_file folder and refer to the build settings.
+
 # Built with:
 Ionic
 
