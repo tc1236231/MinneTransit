@@ -34,9 +34,6 @@ import { MetroTransitAPI } from '../../providers/metro-transit-api';
         if (feedbackData !== undefined && Array.isArray(feedbackData)) {
 
             this.bookmarkStop(feedbackData);
-            // for (let data of feedbackData) {
-            //     this.bookmarkStop(data.stop_id, data.stop_name);
-            // }
         }
 
         this.events.subscribe('onStopSelectedForBookmark', (prm) => {
@@ -58,13 +55,11 @@ import { MetroTransitAPI } from '../../providers/metro-transit-api';
         this.storage.ready().then(() => {
             this.storage.get('Saved stops').then((savedStops) => {
                 if (savedStops !== null && savedStops != []) {
-                    console.log("Bookmarked stops");
                     this.favorites = savedStops;
                     for (let stop of this.favorites) {
                         this.favoritesID.push(stop.id);
                     }
                 } else {
-                    console.log("storage empty");
                     this.storage.set('Saved stops', []);
                     this.favorites = [];
                 }
