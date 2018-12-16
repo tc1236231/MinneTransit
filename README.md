@@ -14,6 +14,9 @@ Ionic
 Visual Studio Code
 
 # Authors
-Thy Nguyen: tnguye10@macalester.edu
-Tom Ehrsam: tehrsam@macalester.edu
-Richard Tian: ctian@macalester.edu
+[Tom Ehrsam] (https://github.com/tehrsam): tehrsam@macalester.edu
+[Thy Nguyen] (https://github.com/thytng): tnguye10@macalester.edu
+[Richard Tian] (https://github.com/tc1236231): ctian@macalester.edu
+
+# Acknowledgements
+Many thanks to [Brett Jackson] (https://github.com/bretjackson) for his mentorship and support throughout this project.
