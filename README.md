@@ -31,8 +31,19 @@ npm install
 
 # Deploying
 
-Install xcode: Run through simulator
+First, you will need to add the desired platform to the project. You can do this by running
 
+```
+ionic cordova platform add [platform]
+```
+
+Download and use Xcode 10
+
+To build:
+
+```
+ionic cordova build ios -- --buildFlag="-UseModernBuildSystem=0"
+```
 # Built with:
 Ionic
 
