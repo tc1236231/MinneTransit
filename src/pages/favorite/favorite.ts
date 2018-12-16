@@ -11,6 +11,7 @@ import { MetroTransitAPI } from '../../providers/metro-transit-api';
   })
   
   export class FavoritePage {
+    // Instance variables to easily check and display data
     favorites = [];
     favoritesID: number[] = [];
 
@@ -27,6 +28,10 @@ import { MetroTransitAPI } from '../../providers/metro-transit-api';
         alert.present();
       }
 
+    /**
+     * Reloads all bookmarked stops every time the tab is opened;
+     * receives data passed from the home page and the search page if any.
+     */
     ionViewDidEnter() {
         this.loadBookmarkedStops();
 
@@ -50,6 +55,10 @@ import { MetroTransitAPI } from '../../providers/metro-transit-api';
           this.navParams.data.stopDatas = undefined;
     }
 
+    /**
+     * Connects to the local storage to fetch all previously bookmarked stops;
+     * assigns the list to an instance variable for faster and easier display.
+     */
     loadBookmarkedStops() {
         this.favoritesID = [];
         this.storage.ready().then(() => {
@@ -67,6 +76,10 @@ import { MetroTransitAPI } from '../../providers/metro-transit-api';
         })
     }
 
+    /**
+     * Loops through an array of StopData objects to add to favorites.
+     * @param dataArray 
+     */
     bookmarkStop(dataArray: StopData[]) {
         this.storage.ready().then(() => {
             this.storage.get('Saved stops').then((savedStops) => {
@@ -80,7 +93,10 @@ import { MetroTransitAPI } from '../../providers/metro-transit-api';
         })
     })
 }
-
+    /**
+     * Removes a stop from favorites.
+     * @param stop 
+     */
     removeBookmarkedStop(stop) {
         this.storage.get('Saved stops').then((savedStops) => {
             let stopID = this.favorites.indexOf(stop);
@@ -90,6 +106,10 @@ import { MetroTransitAPI } from '../../providers/metro-transit-api';
         })
     }
 
+    /**
+     * Receives a stop and sends it to the home page for a card to be created.
+     * @param stop 
+     */
     getChosenStop(stop) {
         this.navCtrl.parent.select(0);
         let prm = {stop_id: stop.id, stop_name: stop.name};
@@ -98,9 +118,5 @@ import { MetroTransitAPI } from '../../providers/metro-transit-api';
 
     openSearchPage() {
         this.navCtrl.push(SearchPage);
-    }
-
-    clear() {
-        this.storage.set('Saved stops', []);
     }
 }
