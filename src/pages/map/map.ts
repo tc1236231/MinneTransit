@@ -16,23 +16,15 @@ import { StopData } from '../../models/stop-data';
 })
 export class MapPage {
   @ViewChild('map') mapContainer: ElementRef;
-  private stopQuery: FormGroup;
-  stopNames: string[];
   stopData: Map<string, object>;
-  queriedStop: string;
-  searchResults: string[]
   map : leaflet.Map;
   currentCenter : LatLngExpression = [44.9375, -93.2010];
-  markerList = [];
   defaultZoom = 17;
   
   constructor(public navCtrl: NavController, private formBuilder: FormBuilder,
     private http: Http, private navParams: NavParams, private geolocation: Geolocation, private events : Events, private alertCtrl: AlertController) {
       
-    this.markerList = [];
     this.stopData = new Map<string, object>();
-    this.stopNames = [];
-    this.searchResults = [];
   }
 
   presentMapAlert() {
@@ -48,6 +40,9 @@ export class MapPage {
     this.loadmap();
   }
 
+  /**
+   * Receives data from search page to create markers.
+   */
   ionViewDidEnter() {
     this.map.invalidateSize();
     let feedbackData = this.navParams.get("stopDatas");
@@ -69,15 +64,9 @@ export class MapPage {
     this.navCtrl.push(SearchPage);
   }
 
-  getQueriedStop() {
-    if (typeof(this.navParams.get("stopName")) != undefined) {
-      return this.navParams.get("stopName");
-    } else {
-      return this.stopQuery.get("stop").value;
-    }
-  }
-
-
+  /**
+   * Instantiates a map.
+   */
   loadmap() {
     this.geolocation.getCurrentPosition().then((resp) => {
       this.currentCenter = [resp.coords.latitude, resp.coords.longitude];
@@ -93,6 +82,7 @@ export class MapPage {
       maxZoom: 20
     }).addTo(this.map);
 
+    // Adds a button on the top left corner to clear all markers on the map.
     leaflet.easyButton("<i class='fa fa-trash' style='font-size: 22px; text-align: center; left: -4px; position: absolute; top: 0.5vh;'></i>", function(btn, map) {
       map.eachLayer(function(layer) {
         map.removeLayer(layer);
@@ -104,6 +94,10 @@ export class MapPage {
     }).addTo(this.map);
   }
 
+  /**
+   * Creates a marker for a stop on the map.
+   * @param currentStop 
+   */
   addStopMarker(currentStop) {
       var m = leaflet.marker([currentStop["stop_lat"], currentStop["stop_lon"]],
       {icon: leaflet.icon({
@@ -124,6 +118,11 @@ export class MapPage {
       this.map.setView([currentStop["stop_lat"], currentStop["stop_lon"]],this.defaultZoom);
   }
 
+  /**
+   * Receives a stop and sends it to the home page for a card to be created.
+   * @param id stop ID
+   * @param name stop name
+   */
   addStopFromMarker(id: number, name: string) {
     this.navCtrl.parent.select(0);
     let prm = { stop_id: id, stop_name: name};

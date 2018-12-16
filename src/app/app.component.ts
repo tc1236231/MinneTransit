@@ -26,7 +26,7 @@ export class MyApp {
         statusBar.styleLightContent();
       }
       splashScreen.hide();
-
+      //Updates Stop Data and checks for Notifications every 30 seconds
       this.notificationTimer = Observable.interval(1000 * 5).subscribe(x => {
         if (NotificationManager.checkForNotification() == true && backgroundMode.isEnabled() == false){
           backgroundMode.enable();

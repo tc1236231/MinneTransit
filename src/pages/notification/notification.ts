@@ -38,6 +38,7 @@ export class NotificationPage {
     alert.present();
   }
 
+  // Creates a single notification to be tracked by notification manager
   setNotification() {
     this.currentStop.enableNoti(parseInt(this.timeIntervalDateStr));
     let minutesInterval : number = new Date(this.timeIntervalDateStr).getMinutes();

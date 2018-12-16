@@ -78,7 +78,7 @@ export class HomePage {
     this.addStopCard(stopNumber);
   }
 
-  addStopCard(stopNumber: number)
+  addStopCard(stopNumber: number) //Creates the stop card for the entered stop
   {
     if(this.isStopDuplicate(stopNumber))
     {
@@ -101,7 +101,7 @@ export class HomePage {
       this.receiveStopFromMap(prm);
     });
   }
-
+  //When the stop is entered from map, instead of search bar from main page
   receiveStopFromMap(param) {
     var stopNumber = param.stop_id;
     if (stopNumber !== undefined) {
@@ -132,6 +132,7 @@ export class HomePage {
     return NotificationManager.getSingleNotificationStatusForStop(stop) != undefined;
   }
 
+  //Adds this stop to the favorites pages, associated with the star icon
   bookmark(stop: StopForm) {
     if(!this.bookMarkEventShouldFire)
       return;
@@ -180,7 +181,8 @@ export class HomePage {
     });
     alert.present();
   }
-
+  
+//Makes sure only 1 card for each stop is shown
   isStopDuplicate(stopNumber: number) : boolean
   {
     for(let stop of this.stops)
