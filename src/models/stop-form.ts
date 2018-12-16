@@ -74,9 +74,7 @@ export class StopForm {
                 this.updateTime = new Date();
                 this.updateTimeString = this.updateTime.toLocaleTimeString();
 
-                //if(this.notiSet) {
-                    this.updateNextNoti();
-                //}
+                this.updateNextNoti();
             },
             error =>
             {
@@ -100,7 +98,6 @@ export class StopForm {
     {
         if(this.allRouteDirs == undefined)
             return [];
-        //let trackedRouteDirs = this.allRouteDirs;
         let trackedRouteDirs = Object.assign([], this.allRouteDirs);
         for(let rDir of this.allRouteDirs)
         {
@@ -119,7 +116,6 @@ export class StopForm {
                 }
               });
         }
-        //console.log(trackedRouteDirs);
         return trackedRouteDirs;
     }
 
@@ -134,7 +130,6 @@ export class StopForm {
          * Updates the singleNotification firing time
          */
         let currentSingleNotifications : SingleNotification[] = NotificationManager.getSingleNotificationsForStop(this);
-        //assert(currentSingleNotifications.length <= 1, "one noti for each stop");
         for(let sNoti of currentSingleNotifications)
         {
             let newNotiData = this.getNextNotificationData(sNoti.minutesInterval);
@@ -161,8 +156,6 @@ export class StopForm {
                     firingTime = new Date(dep.DepartureTime.valueOf() - minutesInterval * 60000);
                     break;
                 }
-                //this.nextNotiDep = this.departures[0];
-                //this.nextNotiTime = new Date(this.nextNotiDep.DepartureTime.valueOf() - this.notiMinutes * 60000);
             }
         }
         return [notificationTime, firingTime, retDeparture, routeDir];
