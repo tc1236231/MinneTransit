@@ -3,9 +3,15 @@ MinneTransit is an IOS/Android application that helps the user in their Twin Cit
 This App was built using the ionic programming language and is compatible with any IOS or Android device.
 # Installation and Development Information
 ## Prerequisites
-NodeJS (Use Mac): brew install npm
+NodeJS (Use Mac): 
+```
+brew install npm
+```
 
-Ionic Cordova: npm install -g ionic cordova
+Ionic Cordova: 
+```
+npm install -g ionic cordova
+```
 
 ## Installing
 Clone the Repo and navigate to the newly created folder
