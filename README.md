@@ -6,7 +6,7 @@ This App was built using the ionic programming language and is compatible with a
 
 ### Home Page
 
-This is where the user can put in a stop number and see the routes passing through that stop along with their schedules. For a stop, the user can filter for certain routes only, bookmark that stop for easy access and use later, and set notifications.
+This is where the user can put in a stop number and see the routes passing through that stop along with their schedules. For a stop, the user can filter for certain routes, bookmark for easy access and use later, and set notifications.
 
 ### Map Page
 
